@@ -4,7 +4,7 @@
 
 	<groupId>org</groupId>
 	<artifactId>onnx4j</artifactId>
-	<version>0.0.1-BETA1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>onnx4j</name>
