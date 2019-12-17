@@ -1,3 +1,19 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.onnx4j.tensor;
 
 import org.onnx4j.onnx.prototypes.OnnxProto3.TensorProto;
@@ -63,6 +79,17 @@ public enum DataType {
 		}
 	}
 	
+	public static DataType from(String nameOfProto) {
+		TensorProto.DataType protoDataType = TensorProto.DataType.valueOf(
+				TensorProto.DataType.class, nameOfProto);
+		return DataType.from(protoDataType);
+	}
+	
+	public static DataType from(int numOfProto) {
+		TensorProto.DataType protoDataType = TensorProto.DataType.forNumber(numOfProto);
+		return DataType.from(protoDataType);
+	}
+	
 	/**
 	 * any types
 	 * @return
@@ -109,9 +136,39 @@ public enum DataType {
 	 */
 	public static DataType[] numericTypes() {
 		final DataType[] dataTypes = {
+				DataType.UINT8,
+				DataType.UINT16,
+				DataType.UINT32,
+				DataType.UINT64,
+				DataType.INT8,
+				DataType.INT16,
+				DataType.INT32,
+				DataType.INT64,
 				DataType.FLOAT16,
 				DataType.FLOAT, 
 				DataType.DOUBLE
+			};
+		return dataTypes;
+	}
+	
+	/**
+	 * any types without string and complex
+	 * @return
+	 */
+	public static DataType[] allTypesWithoutStringAndComplex() {
+		final DataType[] dataTypes = {
+				DataType.UINT8,
+				DataType.UINT16,
+				DataType.UINT32,
+				DataType.UINT64,
+				DataType.INT8,
+				DataType.INT16,
+				DataType.INT32,
+				DataType.INT64,
+				DataType.FLOAT16,
+				DataType.FLOAT, 
+				DataType.DOUBLE, 
+				DataType.BOOL
 			};
 		return dataTypes;
 	}
