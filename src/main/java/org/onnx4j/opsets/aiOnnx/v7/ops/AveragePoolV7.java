@@ -29,24 +29,31 @@ import org.onnx4j.model.graph.node.attributes.StringAttribute;
 import org.onnx4j.opsets.aiOnnx.v1.ops.AveragePoolV1;
 
 /**
- * AveragePool-7
+ * AveragePool Operator v7
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#AveragePool-7
- * @version This version of the operator has been available since version 7 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * AveragePool consumes an input tensor X and applies average pooling across the
+ * tensor according to kernel sizes, stride sizes, and pad lengths. average
+ * pooling consisting of computing the average on all values of a subset of the
+ * input tensor according to the kernel size and downsampling the data into the
+ * output tensor Y for further processing
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 7
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#AveragePool-7">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#AveragePool">
+ *      ONNX.Operators.md</a>
  */
 public interface AveragePoolV7<T_TENSOR> extends AveragePoolV1<T_TENSOR> {
 
 	public static final String ATTR_COUNT_INCLUDE_PAD = "count_include_pad";
 
 	/**
-	 * AveragePool consumes an input tensor X and applies average pooling across
-	 * the tensor according to kernel sizes, stride sizes, and pad lengths.
-	 * average pooling consisting of computing the average on all values of a
-	 * subset of the input tensor according to the kernel size and downsampling
-	 * the data into the output tensor Y for further processing
+	 * Executes the operator
 	 * 
 	 * @param data
 	 *            Input data tensor from the previous operator; dimensions for

@@ -29,13 +29,24 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * MaxPool-1
+ * MaxPool Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#MaxPool-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * MaxPool consumes an input tensor X and applies max pooling across the tensor
+ * according to kernel sizes, stride sizes, and pad lengths. max pooling
+ * consisting of computing the max on all values of a subset of the input tensor
+ * according to the kernel size and downsampling the data into the output tensor
+ * Y for further processing.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#MaxPool-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#MaxPool">
+ *      ONNX.Operators.md</a>
  */
 public interface MaxPoolV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -50,11 +61,7 @@ public interface MaxPoolV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_STRIDES = "strides";
 
 	/**
-	 * MaxPool consumes an input tensor X and applies max pooling across the
-	 * tensor according to kernel sizes, stride sizes, and pad lengths. max
-	 * pooling consisting of computing the max on all values of a subset of the
-	 * input tensor according to the kernel size and downsampling the data into
-	 * the output tensor Y for further processing.
+	 * Executes operator
 	 * 
 	 * @param data
 	 *            Input data tensor from the previous operator; dimensions for

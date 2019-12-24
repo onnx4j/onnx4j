@@ -29,13 +29,28 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Mul-1
+ * Mul Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Performs element-wise binary multiplication (with limited broadcast support).
+ * 
+ * If necessary the right-hand-side argument will be broadcasted to match the
+ * shape of left-hand-side argument. When broadcasting is specified, the second
+ * tensor can either be of element size 1 (including a scalar tensor and any
+ * tensor with rank equal to or smaller than the first tensor), or having its
+ * shape as a contiguous subset of the first tensor's shape. The starting of the
+ * mutually equal shape is specified by the argument "axis", and if it is not
+ * set, suffix matching is assumed. 1-dim expansion doesn't work yet.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Mul-1">ONNX.
+ *      Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Mul">ONNX.
+ *      Operators.md</a>
  */
 public interface MulV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -48,24 +63,19 @@ public interface MulV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_CONSUMED_INPUTS = "consumed_inputs";
 
 	/**
-	 * Performs element-wise binary multiplication (with limited broadcast
-	 * support).
+	 * Executes operator
 	 * 
-	 * If necessary the right-hand-side argument will be broadcasted to match
-	 * the shape of left-hand-side argument. When broadcasting is specified, the
-	 * second tensor can either be of element size 1 (including a scalar tensor
-	 * and any tensor with rank equal to or smaller than the first tensor), or
-	 * having its shape as a contiguous subset of the first tensor's shape. The
-	 * starting of the mutually equal shape is specified by the argument "axis",
-	 * and if it is not set, suffix matching is assumed. 1-dim expansion doesn't
-	 * work yet.
-	 * 
-	 * @constraints tensor(float16), tensor(float), tensor(double)
-	 * @param x0
+	 * @param a
 	 *            First operand, should share the type with the second operand.
-	 * @param x1
+	 * @param b
 	 *            Second operand. With broadcasting can be of smaller size than
 	 *            A. If broadcasting is disabled it should be of the same size.
+	 * @param axis
+	 *            If set, defines the broadcast dimensions. See doc for details.
+	 * @param broadcast
+	 *            Pass 1 to enable broadcasting.
+	 * @param consumedInputs
+	 *            legacy optimization attribute.
 	 * @return Result, has same dimensions and type as A
 	 */
 	public abstract T_TENSOR mul(T_TENSOR a, T_TENSOR b, Long axis, Long broadcast, List<Long> consumedInputs);

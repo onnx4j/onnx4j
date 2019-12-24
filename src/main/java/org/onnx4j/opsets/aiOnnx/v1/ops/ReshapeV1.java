@@ -28,13 +28,25 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Div-1
+ * Reshape Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Div-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Operator Reshape the input tensor similar to numpy.reshape. It takes a tensor
+ * as input and an argument shape. It outputs the reshaped tensor. At most one
+ * dimension of the new shape can be -1. In this case, the value is inferred
+ * from the size of the tensor and the remaining dimensions. A dimension could
+ * also be 0, in which case the actual dimension value is unchanged (i.e. taken
+ * from the input tensor).
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Reshape-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Reshape">
+ *      ONNX.Operators.md</a>
  */
 public interface ReshapeV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -51,12 +63,7 @@ public interface ReshapeV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_CONSUMED_INPUTS = "consumed_inputs";
 
 	/**
-	 * Reshape the input tensor similar to numpy.reshape. It takes a tensor as
-	 * input and an argument shape. It outputs the reshaped tensor. At most one
-	 * dimension of the new shape can be -1. In this case, the value is inferred
-	 * from the size of the tensor and the remaining dimensions. A dimension
-	 * could also be 0, in which case the actual dimension value is unchanged
-	 * (i.e. taken from the input tensor).
+	 * Executes operator
 	 * 
 	 * @param data
 	 *            An input tensor

@@ -29,13 +29,42 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Add-1
+ * Add Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Div-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Performs element-wise binary addition (with limited broadcast support).
+ * 
+ * If necessary the right-hand-side argument will be broadcasted to match the
+ * shape of left-hand-side argument. When broadcasting is specified, the second
+ * tensor can either be of element size 1 (including a scalar tensor and any
+ * tensor with rank equal to or smaller than the first tensor), or having its
+ * shape as a contiguous subset of the first tensor's shape. The starting of the
+ * mutually equal shape is specified by the argument "axis", and if it is not
+ * set, suffix matching is assumed. 1-dim expansion doesn't work yet.
+ * 
+ * <p>
+ * For example, the following tensor shapes are supported (with broadcast=1):
+ * 
+ * <pre>
+ * shape(A) = (2, 3, 4, 5), shape(B) = (,), i.e. B is a scalar tensor
+ * shape(A) = (2, 3, 4, 5), shape(B) = (1, 1), i.e. B is an 1-element tensor
+ * shape(A) = (2, 3, 4, 5), shape(B) = (5,) shape(A) = (2, 3, 4, 5),
+ * shape(B) = (4, 5) shape(A) = (2, 3, 4, 5), shape(B) = (3, 4), with axis=1
+ * shape(A) = (2, 3, 4, 5), shape(B) = (2), with axis=0
+ * </pre>
+ * 
+ * <p>
+ * Attribute broadcast=1 needs to be passed to enable broadcasting.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Add-1">ONNX.
+ *      Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Add">ONNX.
+ *      Operators.md</a>
  */
 public interface AddV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -57,29 +86,7 @@ public interface AddV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_CONSUMED_INPUTS = "consumed_inputs";
 
 	/**
-	 * Performs element-wise binary addition (with limited broadcast support).
-	 * 
-	 * If necessary the right-hand-side argument will be broadcasted to match
-	 * the shape of left-hand-side argument. When broadcasting is specified, the
-	 * second tensor can either be of element size 1 (including a scalar tensor
-	 * and any tensor with rank equal to or smaller than the first tensor), or
-	 * having its shape as a contiguous subset of the first tensor's shape. The
-	 * starting of the mutually equal shape is specified by the argument "axis",
-	 * and if it is not set, suffix matching is assumed. 1-dim expansion doesn't
-	 * work yet.
-	 * 
-	 * For example, the following tensor shapes are supported (with
-	 * broadcast=1):
-	 * 
-	 * <pre>
-	 * shape(A) = (2, 3, 4, 5), shape(B) = (,), i.e. B is a scalar tensor
-	 * shape(A) = (2, 3, 4, 5), shape(B) = (1, 1), i.e. B is an 1-element tensor
-	 * shape(A) = (2, 3, 4, 5), shape(B) = (5,) shape(A) = (2, 3, 4, 5),
-	 * shape(B) = (4, 5) shape(A) = (2, 3, 4, 5), shape(B) = (3, 4), with axis=1
-	 * shape(A) = (2, 3, 4, 5), shape(B) = (2), with axis=0
-	 * </pre>
-	 * 
-	 * Attribute broadcast=1 needs to be passed to enable broadcasting.
+	 * Executes operator
 	 * 
 	 * @param a
 	 *            First operand, should share the type with the second operand.

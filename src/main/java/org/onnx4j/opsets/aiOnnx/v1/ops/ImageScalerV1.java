@@ -29,13 +29,12 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * ImageScaler-1
+ * {@value #OP_TYPE} Operator
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#ImageScaler-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * @deprecated
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
  */
 @Deprecated
 public interface ImageScalerV1<T_TENSOR> extends AiOnnxOperatorV1 {
@@ -46,13 +45,6 @@ public interface ImageScalerV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
 	public static final String ATTR_BIAS = "bias";
 
-	/**
-	 * 
-	 * @param data
-	 * @param shape
-	 * @param consumedInputs
-	 * @return
-	 */
 	public abstract T_TENSOR scale(T_TENSOR input, Float scale, List<Float> bias);
 
 	@Override

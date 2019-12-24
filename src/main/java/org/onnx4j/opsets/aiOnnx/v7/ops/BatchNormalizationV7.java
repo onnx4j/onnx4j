@@ -29,23 +29,32 @@ import org.onnx4j.model.graph.node.attributes.IntsAttribute;
 import org.onnx4j.opsets.aiOnnx.v1.ops.BatchNormalizationV1;
 
 /**
- * BatchNormalization-7
+ * BatchNormalization Operator v7
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#BatchNormalization-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Carries out batch normalization as described in the paper
+ * https://arxiv.org/abs/1502.03167. Depending on the mode it is being run,
+ * there are multiple cases for the number of outputs, which we list below:
+ * 
+ * Output case #1: Y, mean, var, saved_mean, saved_var (training mode) Output
+ * case #2: Y (test mode)
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 7
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#BatchNormalization-7">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#BatchNormalization">
+ *      ONNX.Operators.md</a>
  */
 public interface BatchNormalizationV7<T_TENSOR> extends BatchNormalizationV1<T_TENSOR> {
 
 	/**
-	 * Carries out batch normalization as described in the paper
-	 * https://arxiv.org/abs/1502.03167. Depending on the mode it is being run,
-	 * there are multiple cases for the number of outputs, which we list below:
+	 * Executes operator
 	 * 
-	 * Output case #1: Y, mean, var, saved_mean, saved_var (training mode)
-	 * Output case #2: Y (test mode)
+	 * 
 	 * 
 	 * @param x
 	 *            The input 4-dimensional tensor of shape NCHW.
@@ -75,6 +84,14 @@ public interface BatchNormalizationV7<T_TENSOR> extends BatchNormalizationV1<T_T
 	 *            elements If false, compute the mean and variance across per
 	 *            feature.Default is 1.
 	 * @return
+	 * 
+	 *         <pre>
+	 * Output case #1: Y, mean, var, saved_mean, saved_var (training mode)
+	 *         </pre>
+	 * 
+	 *         <pre>
+	 * Output case #2: Y (test mode)
+	 *         </pre>
 	 */
 	public abstract T_TENSOR[] batchNormalization(T_TENSOR x, T_TENSOR scale, T_TENSOR b, T_TENSOR mean, T_TENSOR var,
 			List<Long> consumedInputs, Float epsilon, Float momentum, Boolean spatial);
@@ -107,17 +124,10 @@ public interface BatchNormalizationV7<T_TENSOR> extends BatchNormalizationV1<T_T
 		Boolean spatial = attrs.getAttrValue(ATTR_SPATIAL, IntAttribute.class, 1L).intValue() == 1 ? true : false;
 
 		Input[] inputArray = inputs.get();
-		return Outputs.wrap(node, this.batchNormalization(
-				inputArray[0].getTensor(), 
-				inputArray[1].getTensor(), 
-				inputArray[2].getTensor(), 
-				inputArray[3].getTensor(), 
-				inputArray[4].getTensor(), 
-				consumedInputs, 
-				epsilon, 
-				momentum, 
-				spatial)
-			);
+		return Outputs.wrap(node,
+				this.batchNormalization(inputArray[0].getTensor(), inputArray[1].getTensor(), inputArray[2].getTensor(),
+						inputArray[3].getTensor(), inputArray[4].getTensor(), consumedInputs, epsilon, momentum,
+						spatial));
 	}
 
 }

@@ -27,13 +27,24 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Cast-1
+ * Cast Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Operators.md#Cast
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * The operator casts the elements of a given input tensor to a data type
+ * specified by the 'to' argument and returns an output tensor of the same size
+ * in the converted type. The 'to' argument must be one of the data types
+ * specified in the 'DataType' enum field in the TensorProto message. NOTE:
+ * Casting to and from strings is not supported yet.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Cast-1">ONNX
+ *      .Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Cast">ONNX.
+ *      Operators.md</a>
  */
 public interface CastV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -51,7 +62,7 @@ public interface CastV1<T_TENSOR> extends AiOnnxOperatorV1 {
 			Input[] inputArray = inputs.get();
 
 			this.t1 = inputArray[0].getTensor();
-			
+
 			this.to = attrs.getAttrValue(ATTR_TO, StringAttribute.class, null);
 		}
 
@@ -67,11 +78,7 @@ public interface CastV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String OP_TYPE = "Cast";
 
 	/**
-	 * The operator casts the elements of a given input tensor to a data type
-	 * specified by the 'to' argument and returns an output tensor of the same
-	 * size in the converted type. The 'to' argument must be one of the data
-	 * types specified in the 'DataType' enum field in the TensorProto message.
-	 * NOTE: Casting to and from strings is not supported yet.
+	 * Executes operator
 	 * 
 	 * @param t1
 	 *            Input tensor to be cast.

@@ -29,13 +29,23 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * LeakyRelu-1
+ * LeakyRelu Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#LeakyRelu-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * LeakyRelu takes input data (Tensor) and an argument alpha, and produces one
+ * output data (Tensor) where the function
+ * {@literal f(x) = alpha * x for x < 0, f(x) = x for x >= 0} , is applied to
+ * the data tensor elementwise.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#LeakyRelu-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#LeakyRelu">
+ *      ONNX.Operators.md</a>
  */
 public interface LeakyReluV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -46,9 +56,7 @@ public interface LeakyReluV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_CONSUMED_INPUTS = "consumed_inputs";
 
 	/**
-	 * LeakyRelu takes input data (Tensor) and an argument alpha, and produces
-	 * one output data (Tensor) where the function f(x) = alpha * x for x < 0,
-	 * f(x) = x for x >= 0, is applied to the data tensor elementwise.
+	 * Executes operator
 	 * 
 	 * @param x
 	 *            Input tensor

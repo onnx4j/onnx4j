@@ -29,13 +29,20 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Concat-1
+ * Concat Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Concatenate a list of tensors into a single tensor
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Concat-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat">ONNX
+ *      .Operators.md</a>
  */
 public interface ConcatV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -44,7 +51,7 @@ public interface ConcatV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_AXIS = "axis";
 
 	/**
-	 * Concatenate a list of tensors into a single tensor
+	 * Executes operator
 	 * 
 	 * @param inputs
 	 *            List of tensors for concatenation
@@ -75,14 +82,14 @@ public interface ConcatV1<T_TENSOR> extends AiOnnxOperatorV1 {
 		// Which axis to concat on. Default value is 1.
 		//
 		Long axis = attrs.getAttrValue(ATTR_AXIS, IntAttribute.class, 1L);
-		
+
 		Input[] inputArray = inputs.get();
 		List<T_TENSOR> inputList = new LinkedList<>();
 		for (Input input : inputArray) {
 			T_TENSOR tensor = input.getTensor();
 			inputList.add(tensor);
 		}
-		
+
 		return Outputs.wrap(node, this.concat(inputList, axis));
 	}
 

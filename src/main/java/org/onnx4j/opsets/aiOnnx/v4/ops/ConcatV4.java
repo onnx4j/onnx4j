@@ -21,13 +21,21 @@ import org.onnx4j.opsets.aiOnnx.v4.AiOnnxOperatorV4;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Concat-4
+ * Concat Operator v4
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat
- * @version This version of the operator has been available since version 4 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Concatenate a list of tensors into a single tensor
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 4
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Concat-4">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Concat">ONNX
+ *      .Operators.md</a>
+ * @see ConcatV1
  */
 public interface ConcatV4<T_TENSOR> extends ConcatV1<T_TENSOR>, AiOnnxOperatorV4 {
 

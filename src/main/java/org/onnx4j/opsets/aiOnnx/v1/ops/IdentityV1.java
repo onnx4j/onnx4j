@@ -24,22 +24,33 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Identity
+ * Identity Operator v1
  * 
+ * <p>
  * Identity operator
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Operators.md#Identity
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Identity-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Identity">
+ *      ONNX.Operators.md</a>
  */
 public interface IdentityV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
 	public static final String OP_TYPE = "Identity";
 
+	/**
+	 * Executors operator
+	 * 
+	 * @param x0
+	 * @return
+	 */
 	public abstract T_TENSOR identity(T_TENSOR x0);
-	
+
 	@Override
 	public default DataType[] getTypeConstraints() {
 		return DataType.allTypes();

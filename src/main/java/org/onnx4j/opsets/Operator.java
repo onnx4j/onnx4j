@@ -23,6 +23,8 @@ public interface Operator extends Forwardable {
 	public enum OperatorStatus {
 		EXPERIMENTAL, STABLE
 	}
+	
+	public long getVersion();
 
 	public long getSinceVersion();
 

@@ -27,13 +27,24 @@ import org.onnx4j.model.graph.node.attributes.FloatAttribute;
 import org.onnx4j.opsets.aiOnnx.v6.ops.DropoutV6;
 
 /**
- * Dropout-7
+ * Dropout Operator v7
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Dropout-7
- * @version This version of the operator has been available since version 7 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Dropout takes one input data (Tensor) and produces two Tensor outputs, output
+ * (Tensor) and mask (Tensor). Depending on whether it is in test mode or not,
+ * the output Y will either be a random dropout, or a simple copy of the input.
+ * Note that our implementation of Dropout does scaling in the training phase,
+ * so during testing nothing needs to be done.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 7
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Dropout-7">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Dropout">
+ *      ONNX.Operators.md</a>
  */
 public interface DropoutV7<T_TENSOR> extends DropoutV6<T_TENSOR> {
 
@@ -42,11 +53,7 @@ public interface DropoutV7<T_TENSOR> extends DropoutV6<T_TENSOR> {
 	public static final String ATTR_RATIO = "ratio";
 
 	/**
-	 * Dropout takes one input data (Tensor) and produces two Tensor outputs,
-	 * output (Tensor) and mask (Tensor). Depending on whether it is in test
-	 * mode or not, the output Y will either be a random dropout, or a simple
-	 * copy of the input. Note that our implementation of Dropout does scaling
-	 * in the training phase, so during testing nothing needs to be done.
+	 * Executes operator
 	 * 
 	 * @param data
 	 *            The input data as Tensor.

@@ -24,26 +24,34 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Abs-1
+ * Abs Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Operators.md#Acos
- * @version This version of the operator has been available since version 6 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Absolute takes one input data (Tensor) and produces one output data (Tensor)
+ * where the absolute is, y = abs(x), is applied to the tensor elementwise.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Abs-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Abs">
+ *      ONNX.Operators.md</a>
  */
 public interface AbsV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
 	public static final String OP_TYPE = "Abs";
 
 	/**
-	 * Absolute takes one input data (Tensor) and produces one output data (Tensor)
-	 * where the absolute is, y = abs(x), is applied to the tensor elementwise.
+	 * Executes operator
 	 * 
-	 * @param x0
-	 * @return
+	 * @param x
+	 *            Input tensor
+	 * @return Output tensor
 	 */
-	public T_TENSOR abs(T_TENSOR x0);
+	public T_TENSOR abs(T_TENSOR x);
 
 	@Override
 	public default OperatorStatus getStatus() {

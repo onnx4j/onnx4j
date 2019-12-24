@@ -24,23 +24,29 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * MatMul
+ * MatMul Operator v1
  * 
+ * <p>
  * Matrix product that behaves like numpy.matmul:
  * https://docs.scipy.org/doc/numpy-1.13.0/reference/generated/numpy.matmul.html
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul
- * @version This version of the operator has been available since version 9 of
- *          the default ONNX operator set.
- *
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#MatMul-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#MatMul">ONNX
+ *      .Operators.md</a>
  */
 public interface MatMulV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
 	public static final String OP_TYPE = "MatMul";
 
 	/**
-	 * @constraints tensor(float16), tensor(float), tensor(double)
+	 * Executes operator
+	 * 
 	 * @param x0
 	 *            N-dimensional matrix A
 	 * @param x1
@@ -67,10 +73,7 @@ public interface MatMulV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	@Override
 	public default Outputs forward(Node node, Inputs inputs) {
 		Input[] inputArray = inputs.get();
-		return Outputs.wrap(
-				node,
-				this.matmul(inputArray[0].getTensor(),
-						inputArray[1].getTensor()));
+		return Outputs.wrap(node, this.matmul(inputArray[0].getTensor(), inputArray[1].getTensor()));
 	}
 
 }

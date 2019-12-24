@@ -26,14 +26,20 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Constant-1
+ * Constant Operator v1
  * 
- * @author HarryLee
+ * <p>
+ * A constant tensor.
  * 
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *	
- * @param <T_TENSOR>
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Constant-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Constant">
+ *      ONNX.Operators.md</a>
  */
 public interface ConstantV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -42,7 +48,7 @@ public interface ConstantV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_VALUE = "value";
 
 	/**
-	 * A constant tensor.
+	 * Executes operator
 	 * 
 	 * @param x0
 	 *            The value for the elements of the output tensor.

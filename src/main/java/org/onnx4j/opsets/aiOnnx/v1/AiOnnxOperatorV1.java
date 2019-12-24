@@ -19,9 +19,15 @@ package org.onnx4j.opsets.aiOnnx.v1;
 import org.onnx4j.opsets.aiOnnx.AiOnnxOperator;
 
 public interface AiOnnxOperatorV1 extends AiOnnxOperator {
+	
+	public static final long VERSION = 1L;
+	
+	public default long getVersion() {
+		return VERSION;
+	}
 
 	public default long getSinceVersion() {
-		return 1L;
+		return VERSION;
 	}
 
 }

@@ -30,13 +30,21 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * MaxPool-1
+ * Conv Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#MaxPool-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * The convolution operator consumes an input tensor and a filter, and computes
+ * the output.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Conv-1">ONNX
+ *      .Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Conv">ONNX.
+ *      Operators.md</a>
  */
 public interface ConvV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -55,8 +63,7 @@ public interface ConvV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_DILATIONS = "dilations";
 
 	/**
-	 * The convolution operator consumes an input tensor and a filter, and
-	 * computes the output.
+	 * Executes operator
 	 * 
 	 * @param x
 	 *            Input data tensor from previous layer; has size (N x C x H x

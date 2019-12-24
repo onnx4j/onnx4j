@@ -28,13 +28,22 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Relu-1
+ * Relu Operator v1
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Relu-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * Relu takes one input data (Tensor) and produces one output data (Tensor)
+ * where the rectified linear function, y = max(0, x), is applied to the tensor
+ * elementwise.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Relu-1">ONNX
+ *      .Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Relu">ONNX.
+ *      Operators.md</a>
  */
 public interface ReluV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -43,9 +52,7 @@ public interface ReluV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_CONSUMED_INPUTS = "consumed_inputs";
 
 	/**
-	 * Relu takes one input data (Tensor) and produces one output data (Tensor)
-	 * where the rectified linear function, y = max(0, x), is applied to the
-	 * tensor elementwise.
+	 * Executes operator
 	 * 
 	 * @param x
 	 *            Input tensor
@@ -77,12 +84,10 @@ public interface ReluV1<T_TENSOR> extends AiOnnxOperatorV1 {
 		//
 		// list of ints
 		//
-		List<Long> consumedInputs = attrs.getAttrValue(ATTR_CONSUMED_INPUTS,
-				IntsAttribute.class, null);
+		List<Long> consumedInputs = attrs.getAttrValue(ATTR_CONSUMED_INPUTS, IntsAttribute.class, null);
 
 		Input[] inputArray = inputs.get();
-		return Outputs.wrap(node,
-				this.relu(inputArray[0].getTensor(), consumedInputs));
+		return Outputs.wrap(node, this.relu(inputArray[0].getTensor(), consumedInputs));
 	}
 
 }

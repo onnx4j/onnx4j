@@ -26,17 +26,23 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
+ * ArgMax Operator v1
+ * 
+ * <p>
  * Computes the indices of the max elements of the input tensor's element along
  * the provided axis. The resulted tensor has the same rank as the input if
  * keepdims equal 1. If keepdims equal 0, then the resulted tensor have the
  * reduced dimension pruned. The type of the output tensor is integer.
  * 
- * @author HarryLee
- * 
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
- * @param <T_TENSOR>
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#ArgMax-1">
+ *      ONNX.Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#ArgMax">ONNX
+ *      .Operators.md</a>
  */
 public interface ArgMaxV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -52,8 +58,20 @@ public interface ArgMaxV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	//
 	public static final String ATTR_KEEPDIMS = "keepdims";
 
-	public abstract T_TENSOR argmax(T_TENSOR x0, int axis, int keepdims);
-	
+	/**
+	 * Executes operator
+	 * 
+	 * @param data
+	 *            An input tensor.
+	 * @param axis
+	 *            The axis in which to compute the arg indices.
+	 * @param keepdims
+	 *            Keep the reduced dimension or not, default 1 mean keep reduced
+	 *            dimension.
+	 * @return Reduced output tensor with integer data type.
+	 */
+	public abstract T_TENSOR argmax(T_TENSOR data, int axis, int keepdims);
+
 	@Override
 	public default DataType[] getTypeConstraints() {
 		return DataType.numericTypes();
@@ -72,7 +90,7 @@ public interface ArgMaxV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	@Override
 	public default Outputs forward(Node node, Inputs inputs) {
 		Attributes attrs = node.getAttrs();
-		
+
 		//
 		// axis : int (default is 0)
 		//
@@ -82,7 +100,7 @@ public interface ArgMaxV1<T_TENSOR> extends AiOnnxOperatorV1 {
 		// keepdims : int (default is 1)
 		//
 		int keepdims = attrs.getAttrValue(ATTR_KEEPDIMS, IntAttribute.class, 1L).intValue();
-		
+
 		Input[] inputArray = inputs.get();
 		return Outputs.wrap(node, this.argmax(inputArray[0].getTensor(), axis, keepdims));
 	}

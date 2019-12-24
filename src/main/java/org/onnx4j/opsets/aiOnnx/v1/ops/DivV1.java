@@ -29,8 +29,9 @@ import org.onnx4j.opsets.aiOnnx.v1.AiOnnxOperatorV1;
 import org.onnx4j.tensor.DataType;
 
 /**
- * Div-1
+ * Div Operator v1
  * 
+ * <p>
  * Performs element-wise binary division (with limited broadcast support).
  * 
  * If necessary the right-hand-side argument will be broadcasted to match the
@@ -54,11 +55,15 @@ import org.onnx4j.tensor.DataType;
  * 
  * Attribute broadcast=1 needs to be passed to enable broadcasting.
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Div-1
- * @version This version of the operator has been available since version 1 of
- *          the default ONNX operator set.
- *
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 1
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Div-1">ONNX.
+ *      Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Div">ONNX.
+ *      Operators.md</a>
  */
 public interface DivV1<T_TENSOR> extends AiOnnxOperatorV1 {
 
@@ -80,7 +85,7 @@ public interface DivV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	public static final String ATTR_CONSUMED_INPUTS = "consumed_inputs";
 
 	/**
-	 * Execute div operator
+	 * Executes operator
 	 * 
 	 * @param a
 	 *            First operand, should share the type with the second operand.

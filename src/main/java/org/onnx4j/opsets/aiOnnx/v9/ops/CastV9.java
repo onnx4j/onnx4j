@@ -19,17 +19,51 @@ package org.onnx4j.opsets.aiOnnx.v9.ops;
 import org.onnx4j.Inputs;
 import org.onnx4j.Outputs;
 import org.onnx4j.model.graph.Node;
+import org.onnx4j.opsets.aiOnnx.v1.ops.CastV1;
 import org.onnx4j.opsets.aiOnnx.v6.ops.CastV6;
 import org.onnx4j.opsets.aiOnnx.v9.AiOnnxOperatorV9;
 
 /**
- * Cast
+ * Cast Operator v9
  * 
- * @author HarryLee
- * @see https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Cast-9
- * @version This version of the operator has been available since version 9 of
- *          the default ONNX operator set.
- *
+ * <p>
+ * The operator casts the elements of a given input tensor to a data type
+ * specified by the 'to' argument and returns an output tensor of the same size
+ * in the converted type. The 'to' argument must be one of the data types
+ * specified in the 'DataType' enum field in the TensorProto message.
+ * 
+ * Casting from string tensor in plain (e.g., "3.14" and "1000") and scientific
+ * numeric representations (e.g., "1e-5" and "1E8") to float types is supported.
+ * For example, converting string "100.5" to an integer may result 100. There
+ * are some string literals reserved for special floating-point values; "+INF"
+ * (and "INF"), "-INF", and "NaN" are positive infinity, negative infinity, and
+ * not-a-number, respectively. Any string which can exactly match "+INF" in a
+ * case-insensitive way would be mapped to positive infinite. Similarly, this
+ * case-insensitive rule is applied to "INF" and "NaN". When casting from
+ * numeric tensors to string tensors, plain floating-point representation (such
+ * as "314.15926") would be used. Converting non-numerical-literal string such
+ * as "Hello World!" is an undefined behavior. Cases of converting string
+ * representing floating-point arithmetic value, such as "2.718", to INT is an
+ * undefined behavior.
+ * 
+ * Conversion from a numerical type to any numerical type is always allowed.
+ * User must be aware of precision loss and value change caused by range
+ * difference between two types. For example, a 64-bit float 3.1415926459 may be
+ * round to a 32-bit float 3.141592. Similarly, converting an integer 36 to
+ * Boolean may produce 1 because we truncate bits which can't be stored in the
+ * targeted type.
+ * 
+ * @author HarryLee {@literal <formaten@qq.com>}
+ * @version 9
+ * @since Version 1 of the default ONNX operator set
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Cast-9">ONNX
+ *      .Changelog.md</a>
+ * @see <a href=
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Cast">ONNX.
+ *      Operators.md</a>
+ * @see CastV1
+ * @see CastV6
  */
 public interface CastV9<T_TENSOR> extends CastV6<T_TENSOR>, AiOnnxOperatorV9 {
 
@@ -42,32 +76,7 @@ public interface CastV9<T_TENSOR> extends CastV6<T_TENSOR>, AiOnnxOperatorV9 {
 	}
 
 	/**
-	 * The operator casts the elements of a given input tensor to a data type
-	 * specified by the 'to' argument and returns an output tensor of the same
-	 * size in the converted type. The 'to' argument must be one of the data
-	 * types specified in the 'DataType' enum field in the TensorProto message.
-	 * 
-	 * Casting from string tensor in plain (e.g., "3.14" and "1000") and
-	 * scientific numeric representations (e.g., "1e-5" and "1E8") to float
-	 * types is supported. For example, converting string "100.5" to an integer
-	 * may result 100. There are some string literals reserved for special
-	 * floating-point values; "+INF" (and "INF"), "-INF", and "NaN" are positive
-	 * infinity, negative infinity, and not-a-number, respectively. Any string
-	 * which can exactly match "+INF" in a case-insensitive way would be mapped
-	 * to positive infinite. Similarly, this case-insensitive rule is applied to
-	 * "INF" and "NaN". When casting from numeric tensors to string tensors,
-	 * plain floating-point representation (such as "314.15926") would be used.
-	 * Converting non-numerical-literal string such as "Hello World!" is an
-	 * undefined behavior. Cases of converting string representing
-	 * floating-point arithmetic value, such as "2.718", to INT is an undefined
-	 * behavior.
-	 * 
-	 * Conversion from a numerical type to any numerical type is always allowed.
-	 * User must be aware of precision loss and value change caused by range
-	 * difference between two types. For example, a 64-bit float 3.1415926459
-	 * may be round to a 32-bit float 3.141592. Similarly, converting an integer
-	 * 36 to Boolean may produce 1 because we truncate bits which can't be
-	 * stored in the targeted type.
+	 * Executes operator
 	 * 
 	 * @param t1
 	 *            Input tensor to be cast.
