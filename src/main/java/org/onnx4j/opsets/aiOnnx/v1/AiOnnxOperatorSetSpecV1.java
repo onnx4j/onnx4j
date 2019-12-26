@@ -31,6 +31,7 @@ import org.onnx4j.opsets.aiOnnx.v1.ops.ConstantV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.ConvV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.DivV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.DropoutV1;
+import org.onnx4j.opsets.aiOnnx.v1.ops.GatherV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.IdentityV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.ImageScalerV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.LeakyReluV1;
@@ -89,6 +90,8 @@ public interface AiOnnxOperatorSetSpecV1<T_TENSOR> extends AiOnnxOperatorSetSpec
 
 	public abstract CastV1<T_TENSOR> getCastV1();
 
+	public abstract GatherV1<T_TENSOR> getGatherV1();
+
 	@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpec.super.initializeOperators();
@@ -121,6 +124,8 @@ public interface AiOnnxOperatorSetSpecV1<T_TENSOR> extends AiOnnxOperatorSetSpec
 		operators.put(AveragePoolV1.OP_TYPE, this.getAveragePoolV1());
 		// 20191216
 		operators.put(CastV1.OP_TYPE, this.getCastV1());
+		// 20191225
+		operators.put(GatherV1.OP_TYPE, this.getGatherV1());
 		return operators;
 	}
 
