@@ -41,6 +41,7 @@ import org.onnx4j.opsets.aiOnnx.v1.ops.MulV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.PadV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.ReluV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.ReshapeV1;
+import org.onnx4j.opsets.aiOnnx.v1.ops.SubV1;
 
 /**
  * Default ONNX Operator Set in version 1
@@ -92,6 +93,8 @@ public interface AiOnnxOperatorSetSpecV1<T_TENSOR> extends AiOnnxOperatorSetSpec
 
 	public abstract GatherV1<T_TENSOR> getGatherV1();
 
+	public abstract SubV1<T_TENSOR> getSubV1();
+
 	@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpec.super.initializeOperators();
@@ -126,6 +129,8 @@ public interface AiOnnxOperatorSetSpecV1<T_TENSOR> extends AiOnnxOperatorSetSpec
 		operators.put(CastV1.OP_TYPE, this.getCastV1());
 		// 20191225
 		operators.put(GatherV1.OP_TYPE, this.getGatherV1());
+		// 20191227
+		operators.put(SubV1.OP_TYPE, this.getSubV1());
 		return operators;
 	}
 

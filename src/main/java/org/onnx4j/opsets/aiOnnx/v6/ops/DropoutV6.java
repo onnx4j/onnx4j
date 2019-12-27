@@ -26,6 +26,7 @@ import org.onnx4j.model.graph.node.Attributes;
 import org.onnx4j.model.graph.node.attributes.FloatAttribute;
 import org.onnx4j.model.graph.node.attributes.IntAttribute;
 import org.onnx4j.opsets.aiOnnx.v1.ops.DropoutV1;
+import org.onnx4j.opsets.aiOnnx.v6.AiOnnxOperatorV6;
 
 /**
  * Dropout Operator v6
@@ -47,7 +48,7 @@ import org.onnx4j.opsets.aiOnnx.v1.ops.DropoutV1;
  *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Dropout">
  *      ONNX.Operators.md</a>
  */
-public interface DropoutV6<T_TENSOR> extends DropoutV1<T_TENSOR> {
+public interface DropoutV6<T_TENSOR> extends DropoutV1<T_TENSOR>, AiOnnxOperatorV6 {
 
 	/**
 	 * Executes operator

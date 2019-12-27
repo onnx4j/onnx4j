@@ -23,6 +23,7 @@ import org.onnx4j.opsets.aiOnnx.v6.AiOnnxOperatorSetSpecV6;
 import org.onnx4j.opsets.aiOnnx.v7.ops.AveragePoolV7;
 import org.onnx4j.opsets.aiOnnx.v7.ops.BatchNormalizationV7;
 import org.onnx4j.opsets.aiOnnx.v7.ops.DropoutV7;
+import org.onnx4j.opsets.aiOnnx.v7.ops.SubV7;
 
 /**
  * Default ONNX Operator Set in version 7
@@ -40,6 +41,8 @@ public interface AiOnnxOperatorSetSpecV7<T_TENSOR> extends AiOnnxOperatorSetSpec
 
 	public abstract AveragePoolV7<T_TENSOR> getAveragePoolV7();
 
+	public abstract SubV7<T_TENSOR> getSubV7();
+
 	@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpecV6.super.initializeOperators();
@@ -50,6 +53,8 @@ public interface AiOnnxOperatorSetSpecV7<T_TENSOR> extends AiOnnxOperatorSetSpec
 		// 20191120
 		operators.put(DropoutV7.OP_TYPE, this.getDropoutV7());
 		operators.put(AveragePoolV7.OP_TYPE, this.getAveragePoolV7());
+		// 20191227
+		operators.put(SubV7.OP_TYPE, this.getSubV7());
 		return operators;
 	}
 

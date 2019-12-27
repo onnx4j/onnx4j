@@ -29,7 +29,7 @@ import org.onnx4j.tensor.DataType;
  * Gather Operator v1
  * 
  * <p>
- * Given data tensor of rank r >= 1, and indices tensor of rank q, gather
+ * Given data tensor of rank {@literal r >= 1}, and indices tensor of rank q, gather
  * entries of the axis dimension of data (by default outer-most one as axis=0)
  * indexed by indices, and concatenates them in an output tensor of rank q + (r
  * - 1).
@@ -101,7 +101,7 @@ public interface GatherV1<T_TENSOR> extends AiOnnxOperatorV1 {
 	 * Executes operator
 	 * 
 	 * @param data
-	 *            Tensor of rank r >= 1.
+	 *            Tensor of rank {@literal r >= 1}.
 	 * @param indices
 	 *            Tensor of int32/int64 indices, of any rank q. All index values
 	 *            are expected to be within bounds. It is an error if any of the

@@ -20,7 +20,7 @@ import org.onnx4j.opsets.aiOnnx.v3.AiOnnxOperatorV3;
 
 public interface AiOnnxOperatorV4 extends AiOnnxOperatorV3 {
 
-	public default long getSinceVersion() {
+	public default long getVersion() {
 		return 4L;
 	}
 

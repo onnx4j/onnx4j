@@ -16,21 +16,22 @@
  */
 package org.onnx4j.opsets.aiOnnx.v6.ops;
 
+import java.util.List;
+
 import org.onnx4j.Inputs;
-import org.onnx4j.Inputs.Input;
 import org.onnx4j.Outputs;
 import org.onnx4j.model.graph.Node;
-import org.onnx4j.model.graph.node.Attributes;
-import org.onnx4j.model.graph.node.attributes.IntAttribute;
-import org.onnx4j.opsets.aiOnnx.v1.ops.MulV1;
+import org.onnx4j.opsets.aiOnnx.v1.ops.SubV1;
 import org.onnx4j.opsets.aiOnnx.v6.AiOnnxOperatorV6;
+import org.onnx4j.tensor.DataType;
 
 /**
- * Mul Operator v6
+ * Sub Operator v6
  * 
  * <p>
- * Performs element-wise binary multiplication (with limited broadcast support).
+ * Performs element-wise binary subtraction (with limited broadcast support).
  * 
+ * <p>
  * If necessary the right-hand-side argument will be broadcasted to match the
  * shape of left-hand-side argument. When broadcasting is specified, the second
  * tensor can either be of element size 1 (including a scalar tensor and any
@@ -39,23 +40,46 @@ import org.onnx4j.opsets.aiOnnx.v6.AiOnnxOperatorV6;
  * mutually equal shape is specified by the argument "axis", and if it is not
  * set, suffix matching is assumed. 1-dim expansion doesn't work yet.
  * 
+ * <p>
+ * For example, the following tensor shapes are supported (with broadcast=1):
+ * 
+ * <pre>
+ * shape(A) = (2, 3, 4, 5), shape(B) = (,), i.e. B is a scalar tensor
+ * shape(A) = (2, 3, 4, 5), shape(B) = (1, 1), i.e. B is an 1-element tensor
+ * shape(A) = (2, 3, 4, 5), shape(B) = (5,)
+ * shape(A) = (2, 3, 4, 5), shape(B) = (4, 5)
+ * shape(A) = (2, 3, 4, 5), shape(B) = (3, 4), with axis=1
+ * shape(A) = (2, 3, 4, 5), shape(B) = (2), with axis=0
+ * </pre>
+ * 
+ * <p>
+ * Attribute broadcast=1 needs to be passed to enable broadcasting.
+ * 
  * @author HarryLee {@literal <formaten@qq.com>}
  * @version 6
  * @since Version 1 of the default ONNX operator set
  * @see <a href=
- *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Mul-6">ONNX.
+ *      "https://github.com/onnx/onnx/blob/master/docs/Changelog.md#Sub-6">ONNX.
  *      Changelog.md</a>
  * @see <a href=
- *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Mul">ONNX.
+ *      "https://github.com/onnx/onnx/blob/master/docs/Operators.md#Sub">ONNX.
  *      Operators.md</a>
  */
-public interface MulV6<T_TENSOR> extends MulV1<T_TENSOR>, AiOnnxOperatorV6 {
+public interface SubV6<T_TENSOR> extends SubV1<T_TENSOR>, AiOnnxOperatorV6 {
 
-	public static final String OP_TYPE = "Mul";
+	class SubInputV6<T_TENSOR> extends SubInputV1<T_TENSOR> {
 
-	public static final String ATTR_AXIS = "axis";
+		public SubInputV6(Node node, Inputs inputs) {
+			super(node, inputs);
+		}
 
-	public static final String ATTR_BROADCAST = "broadcast";
+		@Deprecated
+		public List<Long> getConsumedInputs() {
+			throw new UnsupportedOperationException(
+					String.format("Field named \"%s\" has deprecated", ATTR_CONSUMED_INPUTS));
+		}
+
+	}
 
 	/**
 	 * Executes operator
@@ -71,24 +95,23 @@ public interface MulV6<T_TENSOR> extends MulV1<T_TENSOR>, AiOnnxOperatorV6 {
 	 *            Pass 1 to enable broadcasting.
 	 * @return Result, has same dimensions and type as A
 	 */
-	public abstract T_TENSOR mul(T_TENSOR a, T_TENSOR b, Long axis, Long broadcast);
+	public abstract T_TENSOR sub(T_TENSOR a, T_TENSOR b, Long axis, Long broadcast);
+
+	@Override
+	public default DataType[] getTypeConstraints() {
+		return DataType.floatTypes();
+	}
+
+	@Override
+	public default OperatorStatus getStatus() {
+		return OperatorStatus.STABLE;
+	}
 
 	@Override
 	public default Outputs forward(Node node, Inputs inputs) {
-		Attributes attrs = node.getAttrs();
-
-		//
-		// If set, defines the broadcast dimensions. See doc for details.
-		//
-		Long axis = attrs.getAttrValue(ATTR_AXIS, IntAttribute.class, null);
-
-		//
-		// Pass 1 to enable broadcasting (default is 0)
-		//
-		Long broadcast = attrs.getAttrValue(ATTR_AXIS, IntAttribute.class, 0L);
-
-		Input[] inputArray = inputs.get();
-		return Outputs.wrap(node, this.mul(inputArray[0].getTensor(), inputArray[1].getTensor(), axis, broadcast));
+		SubInputV6<T_TENSOR> operatorInput = new SubInputV6<T_TENSOR>(node, inputs);
+		return Outputs.wrap(node, this.sub(operatorInput.getA(), operatorInput.getB(), operatorInput.getAxis(),
+				operatorInput.getBroadcast()));
 	}
 
 }
