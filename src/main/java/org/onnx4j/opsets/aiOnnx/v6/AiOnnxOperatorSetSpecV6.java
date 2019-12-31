@@ -24,6 +24,7 @@ import org.onnx4j.opsets.aiOnnx.v6.ops.CastV6;
 import org.onnx4j.opsets.aiOnnx.v6.ops.DropoutV6;
 import org.onnx4j.opsets.aiOnnx.v6.ops.MulV6;
 import org.onnx4j.opsets.aiOnnx.v6.ops.SubV6;
+import org.onnx4j.opsets.aiOnnx.v6.ops.SumV6;
 
 /**
  * Default ONNX Operator Set in version 2
@@ -41,6 +42,8 @@ public interface AiOnnxOperatorSetSpecV6<T_TENSOR> extends AiOnnxOperatorSetSpec
 
 	public abstract SubV6<T_TENSOR> getSubV6();
 
+	public abstract SumV6<T_TENSOR> getSumV6();
+
 	//@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpecV5.super.initializeOperators();
@@ -52,6 +55,8 @@ public interface AiOnnxOperatorSetSpecV6<T_TENSOR> extends AiOnnxOperatorSetSpec
 		operators.put(CastV6.OP_TYPE, this.getCastV6());
 		// 20191227
 		operators.put(SubV6.OP_TYPE, this.getSubV6());
+		// 20191230
+		operators.put(SumV6.OP_TYPE, this.getSumV6());
 		return operators;
 	}
 

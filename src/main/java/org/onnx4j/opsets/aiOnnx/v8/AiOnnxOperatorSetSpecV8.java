@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.onnx4j.opsets.Operator;
 import org.onnx4j.opsets.aiOnnx.v7.AiOnnxOperatorSetSpecV7;
+import org.onnx4j.opsets.aiOnnx.v8.ops.SumV8;
 
 /**
  * Default ONNX Operator Set in version 8
@@ -29,9 +30,13 @@ import org.onnx4j.opsets.aiOnnx.v7.AiOnnxOperatorSetSpecV7;
  */
 public interface AiOnnxOperatorSetSpecV8<T_TENSOR> extends AiOnnxOperatorSetSpecV7<T_TENSOR> {
 
+	public abstract SumV8<T_TENSOR> getSumV8();
+
 	@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpecV7.super.initializeOperators();
+		// 20191230
+		operators.put(SumV8.OP_TYPE, this.getSumV8());
 		return operators;
 	}
 
