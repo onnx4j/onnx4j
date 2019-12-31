@@ -23,6 +23,7 @@ import org.onnx4j.opsets.aiOnnx.v5.AiOnnxOperatorSetSpecV5;
 import org.onnx4j.opsets.aiOnnx.v6.ops.CastV6;
 import org.onnx4j.opsets.aiOnnx.v6.ops.DropoutV6;
 import org.onnx4j.opsets.aiOnnx.v6.ops.MulV6;
+import org.onnx4j.opsets.aiOnnx.v6.ops.SigmoidV6;
 import org.onnx4j.opsets.aiOnnx.v6.ops.SubV6;
 import org.onnx4j.opsets.aiOnnx.v6.ops.SumV6;
 
@@ -44,6 +45,8 @@ public interface AiOnnxOperatorSetSpecV6<T_TENSOR> extends AiOnnxOperatorSetSpec
 
 	public abstract SumV6<T_TENSOR> getSumV6();
 
+	public abstract SigmoidV6<T_TENSOR> getSigmoidV6();
+
 	//@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpecV5.super.initializeOperators();
@@ -57,6 +60,8 @@ public interface AiOnnxOperatorSetSpecV6<T_TENSOR> extends AiOnnxOperatorSetSpec
 		operators.put(SubV6.OP_TYPE, this.getSubV6());
 		// 20191230
 		operators.put(SumV6.OP_TYPE, this.getSumV6());
+		// 20191231
+		operators.put(SigmoidV6.OP_TYPE, this.getSigmoidV6());
 		return operators;
 	}
 

@@ -14,14 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onnx4j.opsets.aiOnnx.v8;
+package org.onnx4j.opsets.aiOnnx.v10;
 
-import org.onnx4j.opsets.aiOnnx.v7.AiOnnxOperatorV7;
+import java.util.Map;
 
-public interface AiOnnxOperatorV8 extends AiOnnxOperatorV7 {
+import org.onnx4j.opsets.Operator;
+import org.onnx4j.opsets.aiOnnx.v9.AiOnnxOperatorSetSpecV9;
 
-	public default long getVersion() {
-		return 8L;
+/**
+ * Default ONNX Operator Set in version 10
+ * 
+ * @author HarryLee
+ *
+ */
+public interface AiOnnxOperatorSetSpecV10<T_TENSOR> extends AiOnnxOperatorSetSpecV9<T_TENSOR> {
+
+	@Override
+	public default Map<String, Operator> initializeOperators() {
+		Map<String, Operator> operators = AiOnnxOperatorSetSpecV9.super.initializeOperators();
+		return operators;
 	}
 
 }

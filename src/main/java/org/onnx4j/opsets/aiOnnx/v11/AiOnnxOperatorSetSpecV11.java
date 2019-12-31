@@ -14,14 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onnx4j.opsets.aiOnnx.v8;
+package org.onnx4j.opsets.aiOnnx.v11;
 
-import org.onnx4j.opsets.aiOnnx.v7.AiOnnxOperatorV7;
+import java.util.Map;
 
-public interface AiOnnxOperatorV8 extends AiOnnxOperatorV7 {
+import org.onnx4j.opsets.Operator;
+import org.onnx4j.opsets.aiOnnx.v10.AiOnnxOperatorSetSpecV10;
+import org.onnx4j.opsets.aiOnnx.v11.ops.SoftmaxV11;
 
-	public default long getVersion() {
-		return 8L;
+/**
+ * Default ONNX Operator Set in version 9
+ * 
+ * @author HarryLee
+ *
+ */
+public interface AiOnnxOperatorSetSpecV11<T_TENSOR> extends AiOnnxOperatorSetSpecV10<T_TENSOR> {
+
+	public abstract SoftmaxV11<T_TENSOR> getSoftmaxV11();
+
+	@Override
+	public default Map<String, Operator> initializeOperators() {
+		Map<String, Operator> operators = AiOnnxOperatorSetSpecV10.super.initializeOperators();
+		// 20191231
+		operators.put(SoftmaxV11.OP_TYPE, this.getSoftmaxV11());
+		return operators;
 	}
 
 }

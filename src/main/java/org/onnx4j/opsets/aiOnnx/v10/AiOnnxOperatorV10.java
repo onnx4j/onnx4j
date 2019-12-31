@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onnx4j.opsets.aiOnnx.v8;
+package org.onnx4j.opsets.aiOnnx.v10;
 
-import org.onnx4j.opsets.aiOnnx.v7.AiOnnxOperatorV7;
+import org.onnx4j.opsets.aiOnnx.v9.AiOnnxOperatorV9;
 
-public interface AiOnnxOperatorV8 extends AiOnnxOperatorV7 {
+public interface AiOnnxOperatorV10 extends AiOnnxOperatorV9 {
 
 	public default long getVersion() {
-		return 8L;
+		return 10L;
 	}
 
 }
