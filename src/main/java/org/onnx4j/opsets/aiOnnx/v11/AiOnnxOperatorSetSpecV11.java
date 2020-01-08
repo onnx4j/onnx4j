@@ -21,6 +21,7 @@ import java.util.Map;
 import org.onnx4j.opsets.Operator;
 import org.onnx4j.opsets.aiOnnx.v10.AiOnnxOperatorSetSpecV10;
 import org.onnx4j.opsets.aiOnnx.v11.ops.SoftmaxV11;
+import org.onnx4j.opsets.aiOnnx.v11.ops.SqueezeV11;
 
 /**
  * Default ONNX Operator Set in version 9
@@ -32,11 +33,15 @@ public interface AiOnnxOperatorSetSpecV11<T_TENSOR> extends AiOnnxOperatorSetSpe
 
 	public abstract SoftmaxV11<T_TENSOR> getSoftmaxV11();
 
+	public abstract SqueezeV11<T_TENSOR> getSqueezeV11();
+
 	@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpecV10.super.initializeOperators();
 		// 20191231
 		operators.put(SoftmaxV11.OP_TYPE, this.getSoftmaxV11());
+		// 20200108
+		operators.put(SqueezeV11.OP_TYPE, this.getSqueezeV11());
 		return operators;
 	}
 

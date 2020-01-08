@@ -43,6 +43,7 @@ import org.onnx4j.opsets.aiOnnx.v1.ops.ReluV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.ReshapeV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.SigmoidV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.SoftmaxV1;
+import org.onnx4j.opsets.aiOnnx.v1.ops.SqueezeV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.SubV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.SumV1;
 
@@ -104,6 +105,8 @@ public interface AiOnnxOperatorSetSpecV1<T_TENSOR> extends AiOnnxOperatorSetSpec
 
 	public abstract SoftmaxV1<T_TENSOR> getSoftmaxV1();
 
+	public abstract SqueezeV1<T_TENSOR> getSqueezeV1();
+
 	@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpec.super.initializeOperators();
@@ -145,6 +148,8 @@ public interface AiOnnxOperatorSetSpecV1<T_TENSOR> extends AiOnnxOperatorSetSpec
 		// 20191231
 		operators.put(SigmoidV1.OP_TYPE, this.getSigmoidV1());
 		operators.put(SoftmaxV1.OP_TYPE, this.getSoftmaxV1());
+		// 20200108
+		operators.put(SqueezeV1.OP_TYPE, this.getSqueezeV1());
 		return operators;
 	}
 
