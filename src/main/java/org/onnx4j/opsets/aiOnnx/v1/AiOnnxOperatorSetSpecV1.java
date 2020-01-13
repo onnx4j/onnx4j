@@ -39,6 +39,7 @@ import org.onnx4j.opsets.aiOnnx.v1.ops.MatMulV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.MaxPoolV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.MulV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.PadV1;
+import org.onnx4j.opsets.aiOnnx.v1.ops.ReduceMaxV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.ReluV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.ReshapeV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.SigmoidV1;
@@ -46,6 +47,7 @@ import org.onnx4j.opsets.aiOnnx.v1.ops.SoftmaxV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.SqueezeV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.SubV1;
 import org.onnx4j.opsets.aiOnnx.v1.ops.SumV1;
+import org.onnx4j.opsets.aiOnnx.v1.ops.UnsqueezeV1;
 
 /**
  * Default ONNX Operator Set in version 1
@@ -107,6 +109,10 @@ public interface AiOnnxOperatorSetSpecV1<T_TENSOR> extends AiOnnxOperatorSetSpec
 
 	public abstract SqueezeV1<T_TENSOR> getSqueezeV1();
 
+	public abstract UnsqueezeV1<T_TENSOR> getUnsqueezeV1();
+
+	public abstract ReduceMaxV1<T_TENSOR> getReduceMaxV1();
+
 	@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpec.super.initializeOperators();
@@ -150,6 +156,10 @@ public interface AiOnnxOperatorSetSpecV1<T_TENSOR> extends AiOnnxOperatorSetSpec
 		operators.put(SoftmaxV1.OP_TYPE, this.getSoftmaxV1());
 		// 20200108
 		operators.put(SqueezeV1.OP_TYPE, this.getSqueezeV1());
+		// 20200110
+		operators.put(UnsqueezeV1.OP_TYPE, this.getUnsqueezeV1());
+		// 20200113
+		operators.put(ReduceMaxV1.OP_TYPE, this.getReduceMaxV1());
 		return operators;
 	}
 

@@ -14,26 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onnx4j.opsets;
+package org.onnx4j.opsets.aiOnnx.v12;
 
-import org.onnx4j.Inputs;
-import org.onnx4j.Inputs.Input;
-import org.onnx4j.model.graph.Node;
+import java.util.Map;
 
-public abstract class OperatorInputs {
+import org.onnx4j.opsets.Operator;
+import org.onnx4j.opsets.aiOnnx.v11.AiOnnxOperatorSetSpecV11;
+import org.onnx4j.opsets.aiOnnx.v12.ops.ReduceMaxV12;
 
-	private Input[] inputArray;
+/**
+ * Default ONNX Operator Set in version 9
+ * 
+ * @author HarryLee
+ *
+ */
+public interface AiOnnxOperatorSetSpecV12<T_TENSOR> extends AiOnnxOperatorSetSpecV11<T_TENSOR> {
 
-	public OperatorInputs(Node node, Inputs inputs) {
-		this.inputArray = inputs.get();
-	}
-	
-	public <T extends OperatorInputs> T cast(Class<T> clazz) {
-	    return clazz.isInstance(this) ? clazz.cast(this) : null;
-	}
+	public abstract ReduceMaxV12<T_TENSOR> getReduceMaxV12();
 
-	public Input[] getInputArray() {
-		return inputArray;
+	@Override
+	public default Map<String, Operator> initializeOperators() {
+		Map<String, Operator> operators = AiOnnxOperatorSetSpecV11.super.initializeOperators();
+		// 20200113
+		operators.put(ReduceMaxV12.OP_TYPE, this.getReduceMaxV12());
+		return operators;
 	}
 
 }

@@ -16,6 +16,7 @@
  */
 package org.onnx4j.model.graph.node.attributes;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.onnx4j.model.graph.node.Attribute;
@@ -25,6 +26,14 @@ public class FloatsAttribute extends Attribute<List<Float>> {
 
 	public <T> FloatsAttribute(AttributeProto attrProto) {
 		super(attrProto.getFloatsList(), attrProto.getName(), attrProto.getDocString());
+	}
+
+	/**
+	 * 由于是引用传递，这里返回一个不可修改的List对象，防止Operator在执行的过程中修改List对象的值。
+	 */
+	@Override
+	public List<Float> getValue() {
+		return Collections.unmodifiableList(super.getValue());
 	}
 
 	@Override

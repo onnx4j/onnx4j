@@ -18,10 +18,17 @@ package org.onnx4j.opsets;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.onnx4j.onnx.prototypes.OnnxProto3.OperatorSetIdProto;
 
 public class OperatorSetId {
-	
+
+	public static final String ID_SEPARATOR = ":";
+
+	public static final String DEFAULT_DOMAIN = "ai.onnx";
+
+	public static final long DEFAULT_VERSION = 1L;
+
 	protected String id;
 
 	//
@@ -39,31 +46,31 @@ public class OperatorSetId {
 
 	public static OperatorSetId[] from(List<OperatorSetIdProto> protoList) {
 		assert protoList != null;
-		
+
 		OperatorSetId[] opsetIds;
-		
+
 		if (protoList.size() > 0) {
 			opsetIds = new OperatorSetId[protoList.size()];
 			for (int n = 0; n < opsetIds.length; n++) {
 				OperatorSetIdProto proto = protoList.get(n);
-				opsetIds[n] = new OperatorSetId(
-						proto.getDomain(), proto.getVersion());
+				opsetIds[n] = new OperatorSetId(proto.getDomain(), proto.getVersion());
 			}
 		} else {
 			//
-			// Set default opset("ai.onnx:v1") if OperatorSetIdProto's list is empty
+			// Set default opset("ai.onnx:v1") if OperatorSetIdProto's list is
+			// empty
 			//
 			opsetIds = new OperatorSetId[1];
-			opsetIds[0] = new OperatorSetId("", 1L);
+			opsetIds[0] = new OperatorSetId(DEFAULT_DOMAIN, DEFAULT_VERSION);
 		}
 		return opsetIds;
 	}
-	
+
 	public OperatorSetId(String domain, long opsetVersion) {
 		super();
-		this.domain = domain;
+		this.domain = StringUtils.isEmpty(domain) ? DEFAULT_DOMAIN : domain;
 		this.opsetVersion = opsetVersion;
-		this.id = domain + ":" + opsetVersion;
+		this.id = this.domain + ID_SEPARATOR + this.opsetVersion;
 	}
 
 	public String getId() {

@@ -16,6 +16,7 @@
  */
 package org.onnx4j.model.graph.node.attributes;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.onnx4j.Tensor;
@@ -26,6 +27,14 @@ public class TensorsAttribute extends Attribute<List<Tensor>> {
 
 	public <T> TensorsAttribute(AttributeProto attrProto, Tensor.Options tensorOptions) {
 		super(Tensor.toTensors(attrProto.getTensorsList(), tensorOptions), attrProto.getName(), attrProto.getDocString());
+	}
+
+	/**
+	 * 由于是引用传递，这里返回一个不可修改的List对象，防止Operator在执行的过程中修改List对象的值。
+	 */
+	@Override
+	public List<Tensor> getValue() {
+		return Collections.unmodifiableList(super.getValue());
 	}
 
 	@Override

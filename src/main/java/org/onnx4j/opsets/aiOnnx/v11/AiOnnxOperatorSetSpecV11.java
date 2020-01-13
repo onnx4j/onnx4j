@@ -20,8 +20,10 @@ import java.util.Map;
 
 import org.onnx4j.opsets.Operator;
 import org.onnx4j.opsets.aiOnnx.v10.AiOnnxOperatorSetSpecV10;
+import org.onnx4j.opsets.aiOnnx.v11.ops.ReduceMaxV11;
 import org.onnx4j.opsets.aiOnnx.v11.ops.SoftmaxV11;
 import org.onnx4j.opsets.aiOnnx.v11.ops.SqueezeV11;
+import org.onnx4j.opsets.aiOnnx.v11.ops.UnsqueezeV11;
 
 /**
  * Default ONNX Operator Set in version 9
@@ -35,6 +37,10 @@ public interface AiOnnxOperatorSetSpecV11<T_TENSOR> extends AiOnnxOperatorSetSpe
 
 	public abstract SqueezeV11<T_TENSOR> getSqueezeV11();
 
+	public abstract UnsqueezeV11<T_TENSOR> getUnsqueezeV11();
+
+	public abstract ReduceMaxV11<T_TENSOR> getReduceMaxV11();
+
 	@Override
 	public default Map<String, Operator> initializeOperators() {
 		Map<String, Operator> operators = AiOnnxOperatorSetSpecV10.super.initializeOperators();
@@ -42,6 +48,10 @@ public interface AiOnnxOperatorSetSpecV11<T_TENSOR> extends AiOnnxOperatorSetSpe
 		operators.put(SoftmaxV11.OP_TYPE, this.getSoftmaxV11());
 		// 20200108
 		operators.put(SqueezeV11.OP_TYPE, this.getSqueezeV11());
+		// 20200110
+		operators.put(UnsqueezeV11.OP_TYPE, this.getUnsqueezeV11());
+		// 20200113
+		operators.put(ReduceMaxV11.OP_TYPE, this.getReduceMaxV11());
 		return operators;
 	}
 

@@ -14,26 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onnx4j.opsets;
+package org.onnx4j.opsets.aiOnnx.v12;
 
-import org.onnx4j.Inputs;
-import org.onnx4j.Inputs.Input;
-import org.onnx4j.model.graph.Node;
+import org.onnx4j.opsets.aiOnnx.v11.AiOnnxOperatorV11;
 
-public abstract class OperatorInputs {
+public interface AiOnnxOperatorV12 extends AiOnnxOperatorV11 {
 
-	private Input[] inputArray;
-
-	public OperatorInputs(Node node, Inputs inputs) {
-		this.inputArray = inputs.get();
-	}
-	
-	public <T extends OperatorInputs> T cast(Class<T> clazz) {
-	    return clazz.isInstance(this) ? clazz.cast(this) : null;
-	}
-
-	public Input[] getInputArray() {
-		return inputArray;
+	public default long getVersion() {
+		return 12L;
 	}
 
 }

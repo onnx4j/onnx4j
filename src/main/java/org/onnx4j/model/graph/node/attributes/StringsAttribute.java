@@ -16,6 +16,7 @@
  */
 package org.onnx4j.model.graph.node.attributes;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -40,7 +41,16 @@ public class StringsAttribute extends Attribute<List<String>> {
 		}), attrProto.getName(), attrProto.getDocString());
 	}
 
+	/**
+	 * 由于是引用传递，这里返回一个不可修改的List对象，防止Operator在执行的过程中修改List对象的值。
+	 */
 	@Override
-	public void close() throws Exception {}
+	public List<String> getValue() {
+		return Collections.unmodifiableList(super.getValue());
+	}
+
+	@Override
+	public void close() throws Exception {
+	}
 
 }
