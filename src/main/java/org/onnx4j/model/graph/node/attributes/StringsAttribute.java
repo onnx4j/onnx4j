@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.onnx4j.model.graph.node.Attribute;
-import org.onnx4j.onnx.prototypes.OnnxProto3.AttributeProto;
+import org.onnx4j.prototypes.OnnxProto3.AttributeProto;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -47,10 +47,6 @@ public class StringsAttribute extends Attribute<List<String>> {
 	@Override
 	public List<String> getValue() {
 		return Collections.unmodifiableList(super.getValue());
-	}
-
-	@Override
-	public void close() throws Exception {
 	}
 
 }

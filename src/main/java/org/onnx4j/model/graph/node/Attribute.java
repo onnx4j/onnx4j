@@ -16,7 +16,7 @@
  */
 package org.onnx4j.model.graph.node;
 
-import org.onnx4j.onnx.NamedOnnxObject;
+import org.onnx4j.NamedOnnxObject;
 
 public abstract class Attribute<T> extends NamedOnnxObject {
 	

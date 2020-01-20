@@ -17,10 +17,18 @@
 package org.onnx4j;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import java.lang.ref.PhantomReference;
+import java.lang.ref.ReferenceQueue;
+import java.nio.ByteBuffer;
 
 import org.junit.Test;
 import org.onnx4j.tensor.DataType;
 import org.onnx4j.tensor.Shape;
+import org.onnx4j.tensor.TensorBuilder;
+import org.onnx4j.utils.BufferUtil;
+import org.onnx4j.utils.UnsafeAccess;
 
 /**
  * Unit test for Tensor.class
@@ -33,7 +41,16 @@ public class TensorTest {
 	 */
 	@Test
 	public void testToString() throws Exception {
-		Tensor.Builder builder = Tensor.builder(DataType.FLOAT, Shape.create(2L, 3L, 3L), Tensor.options());
+		TensorManager<Tensor> tsMgr = new TensorManager<Tensor>() {
+
+			@Override
+			protected void dispose(Tensor tensor) {
+				tensor.close();
+			}
+
+		};
+		TensorBuilder builder = TensorBuilder.builder(DataType.FLOAT, Shape.create(2L, 3L, 3L), Tensor.options())
+				.manager(tsMgr);
 		for (int n = 0; n < 2 * 3 * 3; n++) {
 			builder.putFloat(new Float(n));
 		}
@@ -44,6 +61,58 @@ public class TensorTest {
 			assertEquals(expectedOutput, actualOutput);
 			System.out.println(actualOutput);
 		}
+	}
+
+	@SuppressWarnings("restriction")
+	@Test
+	public void testDirectMemAllocationAndDeallocation() {
+		ByteBuffer byteBuffer = ByteBuffer.allocateDirect(1024 * 1024 * 1024);
+		System.out.println("Allocated " + byteBuffer.capacity() + " bytes memory");
+		// DirectBufferDealloc.deallocateDirectBuffer(byteBuffer);
+		UnsafeAccess.UNSAFE.freeMemory(BufferUtil.address(byteBuffer));
+		System.out.println("Allocated " + byteBuffer.capacity() + " bytes memory");
+	}
+
+	@Test
+	public void testWrapedByPhantomReference() {
+		TensorManager<Tensor> tsMgr = new TensorManager<Tensor>() {
+
+			@Override
+			protected void dispose(Tensor tensor) {
+				tensor.close();
+			}
+
+		};
+		TensorBuilder builder = TensorBuilder.builder(DataType.FLOAT, Shape.create(2L, 3L, 3L), Tensor.options())
+				.manager(tsMgr);
+		Tensor tensor = builder.build();
+		assertEquals(
+				"Tensor[2, 3, 3] = [[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0],],[[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0],],]",
+				tensor.toString().replaceAll("[\t\n]", ""));
+
+		ReferenceQueue<Tensor> queue = new ReferenceQueue<Tensor>();
+		PhantomReference<Tensor> pf = new PhantomReference<Tensor>(tensor, queue);
+		assertNull(pf.get());
+		assertNull(queue.poll());
+
+		// tensor = null;
+		while (true) {
+			System.gc();
+			// assertNotNull(queue.poll());
+			if (queue.poll() != null)
+				break;
+			else {
+				/*
+				 * try { Thread.sleep(500); } catch (InterruptedException e) {
+				 * // TODO Auto-generated catch block e.printStackTrace(); }
+				 */
+			}
+		}
+
+		// tensor = null;
+		// System.gc();
+		// assertNull(tensor);
+		// System.out.println(tensor.toString());
 	}
 
 }

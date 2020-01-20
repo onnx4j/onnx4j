@@ -19,7 +19,7 @@ package org.onnx4j.opsets;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.onnx4j.onnx.prototypes.OnnxProto3.OperatorSetIdProto;
+import org.onnx4j.prototypes.OnnxProto3.OperatorSetIdProto;
 
 public class OperatorSetId {
 

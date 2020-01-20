@@ -16,17 +16,21 @@
  */
 package org.onnx4j.model.graph.node.attributes;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.onnx4j.Model;
 import org.onnx4j.Tensor;
 import org.onnx4j.model.graph.node.Attribute;
-import org.onnx4j.onnx.prototypes.OnnxProto3.AttributeProto;
+import org.onnx4j.prototypes.OnnxProto3.AttributeProto;
+import org.onnx4j.prototypes.OnnxProto3.TensorProto;
+import org.onnx4j.tensor.TensorBuilder;
 
 public class TensorsAttribute extends Attribute<List<Tensor>> {
 
-	public <T> TensorsAttribute(AttributeProto attrProto, Tensor.Options tensorOptions) {
-		super(Tensor.toTensors(attrProto.getTensorsList(), tensorOptions), attrProto.getName(), attrProto.getDocString());
+	public <T> TensorsAttribute(Model model, AttributeProto attrProto) {
+		super(toTensors(model, attrProto), attrProto.getName(), attrProto.getDocString());
 	}
 
 	/**
@@ -37,11 +41,14 @@ public class TensorsAttribute extends Attribute<List<Tensor>> {
 		return Collections.unmodifiableList(super.getValue());
 	}
 
-	@Override
-	public void close() throws Exception {
-		for (Tensor t : this.getValue()) {
-			t.close();
+	private static List<Tensor> toTensors(Model model, AttributeProto attrProto) {
+		List<Tensor> tensors = new ArrayList<Tensor>();
+		for (TensorProto tensorProto : attrProto.getTensorsList()) {
+			Tensor tensor = TensorBuilder.builder(tensorProto, model.getTensorOptions())
+					.manager(model.getTensorManager()).build();
+			tensors.add(tensor);
 		}
+		return tensors;
 	}
 
 }

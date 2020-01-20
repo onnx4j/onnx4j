@@ -16,9 +16,9 @@
  */
 package org.onnx4j.tensor;
 
-import org.onnx4j.onnx.prototypes.OnnxProto3.TensorProto;
-import org.onnx4j.onnx.prototypes.OnnxProto3.TensorShapeProto;
-import org.onnx4j.onnx.prototypes.OnnxProto3.ValueInfoProto;
+import org.onnx4j.prototypes.OnnxProto3.TensorProto;
+import org.onnx4j.prototypes.OnnxProto3.TensorShapeProto;
+import org.onnx4j.prototypes.OnnxProto3.ValueInfoProto;
 
 public class ValueInfo {
 

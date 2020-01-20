@@ -24,16 +24,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.onnx4j.Tensor;
+import org.onnx4j.Model;
+import org.onnx4j.NamedOnnxObject;
 import org.onnx4j.model.graph.Constant;
 import org.onnx4j.model.graph.Node;
 import org.onnx4j.model.graph.exchanges.GraphInput;
 import org.onnx4j.model.graph.exchanges.GraphOutput;
-import org.onnx4j.onnx.NamedOnnxObject;
-import org.onnx4j.onnx.prototypes.OnnxProto3.GraphProto;
-import org.onnx4j.onnx.prototypes.OnnxProto3.NodeProto;
-import org.onnx4j.onnx.prototypes.OnnxProto3.TensorProto;
-import org.onnx4j.onnx.prototypes.OnnxProto3.ValueInfoProto;
+import org.onnx4j.prototypes.OnnxProto3.GraphProto;
+import org.onnx4j.prototypes.OnnxProto3.NodeProto;
+import org.onnx4j.prototypes.OnnxProto3.TensorProto;
+import org.onnx4j.prototypes.OnnxProto3.ValueInfoProto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +44,7 @@ public class Graph extends NamedOnnxObject {
 
 	private static Logger logger = LoggerFactory.getLogger(Graph.class);
 
+	private Model model;
 	private com.google.common.graph.Graph<Node> dag;
 	private Constant[] constants;
 	private GraphInput[] inputs;
@@ -54,8 +55,10 @@ public class Graph extends NamedOnnxObject {
 	 * graphProto); }
 	 */
 
-	public Graph(GraphProto graphProto, Tensor.Options tensorOptions) {
+	public Graph(Model model, GraphProto graphProto) {
 		super(graphProto.getName(), graphProto.getDocString());
+		
+		this.model = model;
 
 		Map<String, Node> nodeMapByOutName = new HashMap<String, Node>();
 		Map<String, Collection<Node>> nodesMapByInName = new HashMap<String, Collection<Node>>();
@@ -64,7 +67,7 @@ public class Graph extends NamedOnnxObject {
 		// ONNX定义中的node，一般指代ONNX4J中的OperationNode，应存在入度与出度（若为输出节点，则不存在）
 		//
 		for (NodeProto nodeProto : graphProto.getNodeList()) {
-			Node node = new Node(nodeProto, tensorOptions);
+			Node node = new Node(this.model, nodeProto, this.model.getTensorOptions());
 
 			//
 			// 保存输出名称引用，为下阶段计算依赖关系准备
@@ -87,17 +90,17 @@ public class Graph extends NamedOnnxObject {
 			}
 		}
 
-		this.constants = this.initConstants(graphProto, tensorOptions);
+		this.constants = this.initConstants(graphProto);
 		assert this.constants != null;
 
-		this.inputs = this.initInputs(graphProto, tensorOptions);
+		this.inputs = this.initInputs(graphProto);
 		assert this.inputs != null && this.inputs.length > 0;
 
 		this.dag = this.buildDAG(graphProto, nodeMapByOutName, nodesMapByInName);
 		assert this.dag != null;
 		logger.debug("The definition of graph \"{}\": \"{}\"", super.name, this.dag);
 
-		this.outputs = this.initOutputs(graphProto, nodeMapByOutName, tensorOptions);
+		this.outputs = this.initOutputs(graphProto, nodeMapByOutName);
 		assert this.outputs != null && this.outputs.length > 0;
 	}
 
@@ -164,7 +167,7 @@ public class Graph extends NamedOnnxObject {
 		return null;
 	}
 
-	private Constant[] initConstants(GraphProto graph, Tensor.Options tensorOptions) {
+	private Constant[] initConstants(GraphProto graph) {
 		//
 		// 作为输入常量，不存在入度，即不存在依赖节点
 		// 区别与输入节点，此节点在执行时不需要用户喂入(feed)运行时数据，由网络构建时定义好数值
@@ -177,13 +180,13 @@ public class Graph extends NamedOnnxObject {
 			//
 			// 保存输出名称引用，为下阶段计算依赖关系准备
 			//
-			contants[n] = new Constant(initializer, tensorOptions);
+			contants[n] = new Constant(this.model, initializer);
 		}
 
 		return contants;
 	}
 
-	private GraphInput[] initInputs(GraphProto graph, Tensor.Options tensorOptions) {
+	private GraphInput[] initInputs(GraphProto graph) {
 		//
 		// 作为网络输入，不存在入度，即不存在依赖节点
 		//
@@ -203,8 +206,7 @@ public class Graph extends NamedOnnxObject {
 		return exchanges;
 	}
 
-	private GraphOutput[] initOutputs(GraphProto graph, Map<String, Node> nodeMapByOutName,
-			Tensor.Options tensorOptions) {
+	private GraphOutput[] initOutputs(GraphProto graph, Map<String, Node> nodeMapByOutName) {
 		//
 		// 作为网络输入，不存在入度，即不存在依赖节点
 		//
@@ -242,17 +244,6 @@ public class Graph extends NamedOnnxObject {
 		}
 
 		return builder.build();
-	}
-
-	@Override
-	public void close() throws Exception {
-		for (Constant constant : this.constants) {
-			constant.close();
-		}
-		
-		for (Node node : this.dag.nodes()) {
-			node.close();
-		}
 	}
 
 }

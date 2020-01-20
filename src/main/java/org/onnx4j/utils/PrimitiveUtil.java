@@ -38,6 +38,14 @@ public class PrimitiveUtil {
 		return buffer.array();
 	}
 
+	public static byte[] toListToByteArrayFromInts(List<Integer> intList) {
+		ByteBuffer buffer = ByteBuffer.allocate(intList.size() * Integer.BYTES).order(ByteOrder.LITTLE_ENDIAN);
+		for (Integer i : intList) {
+			buffer.putInt(i);
+		}
+		return buffer.array();
+	}
+
 	public static byte[] toListToByteArrayFromLongs(List<Long> longList) {
 		ByteBuffer buffer = ByteBuffer.allocate(longList.size() * Long.BYTES).order(ByteOrder.LITTLE_ENDIAN);
 		for (long l : longList) {

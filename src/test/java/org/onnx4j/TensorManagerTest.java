@@ -14,18 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onnx4j.onnx;
+package org.onnx4j;
 
-public abstract class OnnxObject implements AutoCloseable {
+import org.junit.Test;
+import org.onnx4j.tensor.DataType;
+import org.onnx4j.tensor.Shape;
+import org.onnx4j.tensor.TensorBuilder;
 
-	protected String docString;
+/**
+ * Unit test for class of TensorManager
+ */
+public class TensorManagerTest {
 
-	public OnnxObject(String docString) {
-		this.docString = docString;
-	}
-
-	public String getDocString() {
-		return this.docString;
+	/**
+	 * @throws Exception
+	 * 
+	 */
+	@Test
+	public void test() throws Exception {
+		for (int n = 0; n < 10; n++) {
+			TensorBuilder.builder(DataType.FLOAT, Shape.create(1000000L), Tensor.options()).build();
+		}
 	}
 
 }

@@ -14,29 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onnx4j.onnx;
+package org.onnx4j;
 
-import org.onnx4j.model.graph.Node;
+public abstract class OnnxObject {
 
-public abstract class NamedOnnxObject extends OnnxObject {
+	protected String docString;
 
-	protected String name;
-
-	public NamedOnnxObject(String name, String docString) {
-		super(docString);
-		this.name = name;
+	public OnnxObject(String docString) {
+		this.docString = docString;
 	}
 
-	public String getName() {
-		return this.name;
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (Node.class.isInstance(object) == false)
-			return false;
-
-		return name.equalsIgnoreCase(((NamedOnnxObject) object).name);
+	public String getDocString() {
+		return this.docString;
 	}
 
 }

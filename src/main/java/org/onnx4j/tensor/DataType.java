@@ -16,7 +16,7 @@
  */
 package org.onnx4j.tensor;
 
-import org.onnx4j.onnx.prototypes.OnnxProto3.TensorProto;
+import org.onnx4j.prototypes.OnnxProto3.TensorProto;
 
 public enum DataType {
 	

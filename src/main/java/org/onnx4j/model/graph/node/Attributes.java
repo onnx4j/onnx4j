@@ -19,9 +19,8 @@ package org.onnx4j.model.graph.node;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.onnx4j.Tensor;
+import org.onnx4j.Model;
 import org.onnx4j.model.graph.node.attributes.FloatAttribute;
 import org.onnx4j.model.graph.node.attributes.FloatsAttribute;
 import org.onnx4j.model.graph.node.attributes.IntAttribute;
@@ -31,19 +30,19 @@ import org.onnx4j.model.graph.node.attributes.StringAttribute;
 import org.onnx4j.model.graph.node.attributes.StringsAttribute;
 import org.onnx4j.model.graph.node.attributes.TensorAttribute;
 import org.onnx4j.model.graph.node.attributes.TensorsAttribute;
-import org.onnx4j.onnx.prototypes.OnnxProto3.AttributeProto;
+import org.onnx4j.prototypes.OnnxProto3.AttributeProto;
 
-public class Attributes implements AutoCloseable {
+public class Attributes {
 
 	private Map<String, Attribute<?>> attrs = new HashMap<String, Attribute<?>>();
 
-	public Attributes(List<AttributeProto> attrProtoList, Tensor.Options tensorOptions) {
+	public Attributes(Model model, List<AttributeProto> attrProtoList) {
 		for (AttributeProto attrProto : attrProtoList) {
-			this.addAttr(attrProto, tensorOptions);
+			this.addAttr(model, attrProto);
 		}
 	}
 
-	protected void addAttr(AttributeProto attrProto, Tensor.Options tensorOptions) {
+	protected void addAttr(Model model, AttributeProto attrProto) {
 		String attrName = attrProto.getName();
 
 		if (attrProto.getType().getNumber() != 0) {
@@ -67,10 +66,10 @@ public class Attributes implements AutoCloseable {
 				this.attrs.put(attrName, new StringsAttribute(attrProto));
 				break;
 			case AttributeProto.AttributeType.TENSOR_VALUE:
-				this.attrs.put(attrName, new TensorAttribute(attrProto, tensorOptions));
+				this.attrs.put(attrName, new TensorAttribute(model, attrProto));
 				break;
 			case AttributeProto.AttributeType.TENSORS_VALUE:
-				this.attrs.put(attrName, new TensorsAttribute(attrProto, tensorOptions));
+				this.attrs.put(attrName, new TensorsAttribute(model, attrProto));
 				break;
 			default:
 				this.attrs.put(attrName, new NullAttribute(attrProto));
@@ -91,9 +90,9 @@ public class Attributes implements AutoCloseable {
 			} else if (attrProto.getStringsCount() > 0) {
 				this.attrs.put(attrName, new StringsAttribute(attrProto));
 			} else if (attrProto.hasT()) {
-				this.attrs.put(attrName, new TensorAttribute(attrProto, tensorOptions));
+				this.attrs.put(attrName, new TensorAttribute(model, attrProto));
 			} else if (attrProto.getTensorsCount() > 0) {
-				this.attrs.put(attrName, new TensorsAttribute(attrProto, tensorOptions));
+				this.attrs.put(attrName, new TensorsAttribute(model, attrProto));
 			} else {
 				// this.attrs.put(attrName, new Attribute<Object>(null));
 			}
@@ -112,13 +111,5 @@ public class Attributes implements AutoCloseable {
 
 		return typeOfAttr.cast(attr).getValue();
 	}
-
-	@Override
-	public void close() throws Exception {
-		for (Entry<String, Attribute<?>> entry : attrs.entrySet()) {
-			entry.getValue().close();
-		}
-	}
-	
 
 }

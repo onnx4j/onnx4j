@@ -14,26 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onnx4j.model.graph.node.attributes;
+package org.onnx4j;
 
-import java.util.Collections;
-import java.util.List;
+import org.onnx4j.model.graph.Node;
 
-import org.onnx4j.model.graph.node.Attribute;
-import org.onnx4j.prototypes.OnnxProto3.AttributeProto;
+public abstract class NamedOnnxObject extends OnnxObject {
 
-public class IntsAttribute extends Attribute<List<Long>> {
+	protected String name;
 
-	public <T> IntsAttribute(AttributeProto attrProto) {
-		super(attrProto.getIntsList(), attrProto.getName(), attrProto.getDocString());
+	public NamedOnnxObject(String name, String docString) {
+		super(docString);
+		this.name = name;
 	}
 
-	/**
-	 * 由于是引用传递，这里返回一个不可修改的List对象，防止Operator在执行的过程中修改List对象的值。
-	 */
+	public String getName() {
+		return this.name;
+	}
+
 	@Override
-	public List<Long> getValue() {
-		return Collections.unmodifiableList(super.getValue());
+	public boolean equals(Object object) {
+		if (Node.class.isInstance(object) == false)
+			return false;
+
+		return name.equalsIgnoreCase(((NamedOnnxObject) object).name);
 	}
 
 }

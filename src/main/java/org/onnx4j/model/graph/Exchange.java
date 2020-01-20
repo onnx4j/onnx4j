@@ -16,8 +16,8 @@
  */
 package org.onnx4j.model.graph;
 
-import org.onnx4j.onnx.NamedOnnxObject;
-import org.onnx4j.onnx.prototypes.OnnxProto3.ValueInfoProto;
+import org.onnx4j.NamedOnnxObject;
+import org.onnx4j.prototypes.OnnxProto3.ValueInfoProto;
 import org.onnx4j.tensor.ValueInfo;
 
 public abstract class Exchange extends NamedOnnxObject {

@@ -25,15 +25,14 @@ import org.onnx4j.Tensor.Options;
 import org.onnx4j.exceptions.ModelException;
 import org.onnx4j.exceptions.ModelException.ModelExceptionEnums;
 import org.onnx4j.model.Graph;
-import org.onnx4j.onnx.OnnxObject;
-import org.onnx4j.onnx.prototypes.OnnxProto3;
-import org.onnx4j.onnx.prototypes.OnnxProto3.ModelProto;
-import org.onnx4j.onnx.prototypes.OnnxProto3.Version;
 import org.onnx4j.opsets.OperatorSetId;
+import org.onnx4j.prototypes.OnnxProto3;
+import org.onnx4j.prototypes.OnnxProto3.ModelProto;
+import org.onnx4j.prototypes.OnnxProto3.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Model extends OnnxObject {
+public class Model extends OnnxObject implements AutoCloseable {
 
 	private static Logger logger = LoggerFactory.getLogger(Model.class);
 
@@ -42,6 +41,7 @@ public class Model extends OnnxObject {
 	private Graph graph;
 	private OperatorSetId[] opsetIds;
 	private Options tensorOptions;
+	private TensorManager<Tensor> tensorManager;
 
 	private static OnnxProto3.ModelProto loadOnnxModel(String onnxModelPath) throws FileNotFoundException, IOException {
 		OnnxProto3.ModelProto onnxModel;
@@ -59,13 +59,21 @@ public class Model extends OnnxObject {
 
 		this.doCheck(onnxModel);
 		
+		this.tensorManager = new TensorManager<Tensor>() {
+
+			@Override
+			protected void dispose(Tensor tensor) {
+				tensor.close();
+			}
+			
+		};
 		this.tensorOptions = tensorOptions;
 
 		// this.managedTensors = new ManagedTensors();
 		this.irVersion = onnxModel.getIrVersion();
 		this.modelVersion = onnxModel.getModelVersion();
 		this.opsetIds = OperatorSetId.from(onnxModel.getOpsetImportList());
-		this.graph = new Graph(onnxModel.getGraph(), tensorOptions);
+		this.graph = new Graph(this, onnxModel.getGraph());
 
 		super.docString = onnxModel.getDocString();
 
@@ -107,10 +115,14 @@ public class Model extends OnnxObject {
 	public Options getTensorOptions() {
 		return tensorOptions;
 	}
+
+	public TensorManager<Tensor> getTensorManager() {
+		return tensorManager;
+	}
 	
 	@Override
 	public void close() throws Exception {
-		this.graph.close();
+		this.tensorManager.close();
 	}
 
 	/**

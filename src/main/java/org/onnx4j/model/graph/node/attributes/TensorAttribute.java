@@ -16,19 +16,17 @@
  */
 package org.onnx4j.model.graph.node.attributes;
 
+import org.onnx4j.Model;
 import org.onnx4j.Tensor;
 import org.onnx4j.model.graph.node.Attribute;
-import org.onnx4j.onnx.prototypes.OnnxProto3.AttributeProto;
+import org.onnx4j.prototypes.OnnxProto3.AttributeProto;
+import org.onnx4j.tensor.TensorBuilder;
 
 public class TensorAttribute extends Attribute<Tensor> {
 
-	public <T> TensorAttribute(AttributeProto attrProto, Tensor.Options tensorOptions) {
-		super(Tensor.toTensor(attrProto.getT(), tensorOptions), attrProto.getName(), attrProto.getDocString());
-	}
-
-	@Override
-	public void close() throws Exception {
-		this.getValue().close();
+	public <T> TensorAttribute(Model model, AttributeProto attrProto) {
+		super(TensorBuilder.builder(attrProto.getT(), model.getTensorOptions()).build(), attrProto.getName(),
+				attrProto.getDocString());
 	}
 
 }

@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.onnx4j.model.graph.node.Attribute;
-import org.onnx4j.onnx.prototypes.OnnxProto3.AttributeProto;
+import org.onnx4j.prototypes.OnnxProto3.AttributeProto;
 
 public class FloatsAttribute extends Attribute<List<Float>> {
 
@@ -35,8 +35,5 @@ public class FloatsAttribute extends Attribute<List<Float>> {
 	public List<Float> getValue() {
 		return Collections.unmodifiableList(super.getValue());
 	}
-
-	@Override
-	public void close() throws Exception {}
 
 }

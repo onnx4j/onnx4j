@@ -19,7 +19,7 @@ package org.onnx4j.tensor;
 import java.util.Arrays;
 import java.util.List;
 
-import org.onnx4j.onnx.prototypes.OnnxProto3.TensorShapeProto;
+import org.onnx4j.prototypes.OnnxProto3.TensorShapeProto;
 
 import com.google.common.primitives.Longs;
 
