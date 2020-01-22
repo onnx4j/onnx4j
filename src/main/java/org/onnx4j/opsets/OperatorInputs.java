@@ -22,7 +22,7 @@ import org.onnx4j.model.graph.Node;
 
 public abstract class OperatorInputs {
 
-	private Input[] inputArray;
+	protected Input[] inputArray;
 
 	public OperatorInputs(Node node, Inputs inputs) {
 		this.inputArray = inputs.get();
