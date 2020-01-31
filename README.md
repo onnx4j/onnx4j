@@ -5,3 +5,37 @@ Onnx4j是一个面向ONNX（开放式神经网络交换协议）的Java表达项
 ONNX官方提供了其规范的proto定义，我们可以通过Google ProtoBuffer生成用于Java的相关定义类。onnx4j在ONNX官方的proto定义基础上，通过使用OOP的相关手段，如：接口与实现、类与继承等，使其转换为一个更为结构化和更清晰的表达方式，为所有建基于ONNX规范的Java程序开发提供更友好的开发方式。
 
 对于onnx4j的使用，我们可以参考基于onnx4j派生的，专注于神经网络forward操作的框架Forwarder：https://github.com/onnx4j/forwarder
+
+## Operator支持
+|Operator|v1|v2|v3|v4|v5|v6|v7|v8|v9|v10|v11|v12|
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|Abs|✓||||||||||||
+|Add|✓||||||||||||
+|ArgMax|✓||||||||||||
+|AveragePool|✓||||||||||||
+|BatchNormalization|✓||||||||||||
+|Cast|✓|||||✓|||✓||||
+|Concat|✓|||✓|||||||||
+|Constant|✓||||||||||||
+|Conv|✓||||||||||||
+|Div|✓||||||||||||
+|Dropout|✓|||||✓|||||||
+|Gather|✓||||||||||||
+|Identity|✓||||||||||||
+|ImageScaler|✓||||||||||||
+|LeakyRelu|✓||||||||||||
+|MatMul|✓||||||||||||
+|MaxPool|✓||||||||||||
+|Mul|✓|||||✓|||||||
+|Pad|✓||||||||||||
+|ReduceMax|✓||||||||||✓|✓|
+|Relu|✓||||||||||||
+|Reshape|✓||||✓||||||||
+|Shape|✓||||||||||||
+|Sigmoid|✓|||||✓|||||||
+|Softmax|✓||||||||||✓||
+|Squeeze|✓||||||||||✓||
+|Sub|✓|||||✓|✓||||||
+|Sum|✓|||||✓||✓|||||
+|Transpose|✓||||||||||||
+|Unsqueeze|✓||||||||||✓||
