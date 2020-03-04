@@ -17,9 +17,9 @@
 package org.onnx4j.exceptions;
 
 public interface ExceptionEnums {
+	
+	public String getErrorCode(); 
 
-	public int getCode();
-
-	public String getMessage();
+	public String getMessageTemplate();
 
 }

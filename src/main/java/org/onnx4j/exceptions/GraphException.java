@@ -16,35 +16,44 @@
  */
 package org.onnx4j.exceptions;
 
-public class GraphException extends ForwarderException {
+import org.onnx4j.exceptions.ErrorCode;
+import org.onnx4j.exceptions.ExceptionEnums;
+import org.onnx4j.exceptions.Onnx4jException;
+
+public class GraphException extends Onnx4jException {
 
 	private static final long serialVersionUID = -9110594428291367746L;
+	
+	private static final String ERR_CODE_PREFIX = "GE";
 
-	private static final int ERR_CODE_BASE = 20000;
+	private static int ERR_CODE_BASE = 2000;
 
 	public enum GraphExceptionEnums implements ExceptionEnums {
 
-		INPUT_UNDEFINED(ERR_CODE_BASE + 1, "Input of graph named %s can not be found"),
-		NO_INPUTS_UNDEFINED(ERR_CODE_BASE + 2, "No any inputs defined in grpah"),
-		OUTPUT_UNDEFINED(ERR_CODE_BASE + 3, "Output of graph named %s can not be found"),
-		NO_OUTPUTS_UNDEFINED(ERR_CODE_BASE + 4, "No any outputs defined in grpah");
+		/**
+		 * 警告：注意枚举成员的顺序，不能随意调整！
+		 */
+		INPUT_UNDEFINED("Input of graph named %s can not be found"),
+		NO_INPUTS_UNDEFINED("No any inputs defined in grpah"),
+		OUTPUT_UNDEFINED("Output of graph named %s can not be found"),
+		NO_OUTPUTS_UNDEFINED("No any outputs defined in grpah");
 
-		public int code;
-		public String message;
+		public ErrorCode errorCode;
+		public String messageTemplate;
 
-		private GraphExceptionEnums(int code, String message) {
-			this.code = code;
-			this.message = message;
+		private GraphExceptionEnums(String messageTemplate) {
+			this.errorCode = new ErrorCode(ERR_CODE_PREFIX, ERR_CODE_BASE++);
+			this.messageTemplate = messageTemplate;
 		}
 
 		@Override
-		public int getCode() {
-			return code;
+		public String getErrorCode() {
+			return errorCode.toString();
 		}
 
 		@Override
-		public String getMessage() {
-			return message;
+		public String getMessageTemplate() {
+			return messageTemplate;
 		}
 
 	}
@@ -54,7 +63,7 @@ public class GraphException extends ForwarderException {
 	}
 
 	public GraphException(GraphExceptionEnums exceptionEnum, Object... args) {
-		super(String.format(exceptionEnum.getMessage(), args));
+		super(exceptionEnum, args);
 	}
 
 }

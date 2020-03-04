@@ -77,7 +77,7 @@ public class Tensor extends NamedOnnxObject implements AutoCloseable {
 		super(name, docString);
 
 		if (dataBuffer == null || dataBuffer.capacity() <= 0)
-			throw new IllegalArgumentException("Data buffer is null or empty");
+			throw new IllegalArgumentException("Databuffer is null or empty");
 
 		this.name = name;
 		this.valueInfo = new ValueInfo(dataType, shape);
@@ -161,7 +161,7 @@ public class Tensor extends NamedOnnxObject implements AutoCloseable {
 	public void close() {
 		if (this.dataBuffer != null) {
 			if (!DirectBufferDealloc.deallocateDirectBuffer(this.dataBuffer))
-				logger.warn("[Tensor:{}] Failed to free memory.", this.name);
+				throw new RuntimeException(String.format("[Tensor:%s] can not be released.", this.name));
 
 			this.dataBuffer = null;
 		}

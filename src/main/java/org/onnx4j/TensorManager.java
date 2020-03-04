@@ -55,9 +55,15 @@ public abstract class TensorManager<T_TS> implements AutoCloseable {
 			throw new IllegalStateException("The TensorManager has closed.");
 
 		for (Entry<String, T_TS> entry : this.tensors.entrySet()) {
-			this.dispose(entry.getValue());
-			logger.debug("Tensor[{}] named \"{}\" has been released.", entry.getValue().getClass().getName(),
-					entry.getKey());
+			try {
+				this.dispose(entry.getValue());
+				logger.debug("Tensor[{}:{}] has been released.", entry.getValue().getClass().getName(),
+						entry.getKey());
+			} catch (Exception e) {
+				logger.error("Tensor[{}:{}] can not be released.", entry.getValue().getClass().getName(),
+						entry.getKey());
+			}
+			
 		}
 
 		this.tensors.clear();

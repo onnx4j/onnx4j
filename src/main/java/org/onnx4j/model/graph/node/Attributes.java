@@ -25,7 +25,6 @@ import org.onnx4j.model.graph.node.attributes.FloatAttribute;
 import org.onnx4j.model.graph.node.attributes.FloatsAttribute;
 import org.onnx4j.model.graph.node.attributes.IntAttribute;
 import org.onnx4j.model.graph.node.attributes.IntsAttribute;
-import org.onnx4j.model.graph.node.attributes.NullAttribute;
 import org.onnx4j.model.graph.node.attributes.StringAttribute;
 import org.onnx4j.model.graph.node.attributes.StringsAttribute;
 import org.onnx4j.model.graph.node.attributes.TensorAttribute;
@@ -72,7 +71,9 @@ public class Attributes {
 				this.attrs.put(attrName, new TensorsAttribute(model, attrProto));
 				break;
 			default:
-				this.attrs.put(attrName, new NullAttribute(attrProto));
+				throw new UnsupportedOperationException(
+						String.format("Unable to handle the attribute \"%s\" as \"%s\" type", attrProto.getName(),
+								attrProto.getType().name()));
 			}
 		} else {
 			if (attrProto.hasField(AttributeProto.getDescriptor().findFieldByNumber(AttributeProto.I_FIELD_NUMBER))) {
@@ -94,7 +95,7 @@ public class Attributes {
 			} else if (attrProto.getTensorsCount() > 0) {
 				this.attrs.put(attrName, new TensorsAttribute(model, attrProto));
 			} else {
-				// this.attrs.put(attrName, new Attribute<Object>(null));
+				// Ignore it
 			}
 		}
 	}

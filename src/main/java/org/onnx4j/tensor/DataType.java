@@ -172,5 +172,45 @@ public enum DataType {
 			};
 		return dataTypes;
 	}
+	
+	/**
+	 * any types without complex
+	 * @return
+	 */
+	public static DataType[] allTypesWithoutComplex() {
+		final DataType[] dataTypes = {
+				DataType.UINT8,
+				DataType.UINT16,
+				DataType.UINT32,
+				DataType.UINT64,
+				DataType.INT8,
+				DataType.INT16,
+				DataType.INT32,
+				DataType.INT64,
+				DataType.FLOAT16,
+				DataType.FLOAT, 
+				DataType.DOUBLE, 
+				DataType.STRING, 
+				DataType.BOOL
+			};
+		return dataTypes;
+	}
+	
+	/**
+	 * high-precision numeric
+	 * @return
+	 */
+	public static DataType[] highPrecisionNumeric() {
+		final DataType[] dataTypes = {
+				DataType.UINT32,
+				DataType.UINT64,
+				DataType.INT32,
+				DataType.INT64,
+				DataType.FLOAT16,
+				DataType.FLOAT, 
+				DataType.DOUBLE
+			};
+		return dataTypes;
+	}
 
 }

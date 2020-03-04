@@ -16,12 +16,10 @@
  */
 package org.onnx4j.opsets;
 
-import org.onnx4j.tensor.DataType;
-
-public interface Operator extends Forwardable {
+public interface Operator {
 
 	public enum OperatorStatus {
-		EXPERIMENTAL, STABLE
+		EXPERIMENTAL, STABLE, REMOVED
 	}
 	
 	public long getVersion();
@@ -31,8 +29,6 @@ public interface Operator extends Forwardable {
 	public OperatorStatus getStatus();
 
 	public String getOpType();
-
-	public DataType[] getTypeConstraints();
 
 	public default String getDocString() {
 		return "https://github.com/onnx/onnx/blob/master/docs/Operators.md#" + getOpType();

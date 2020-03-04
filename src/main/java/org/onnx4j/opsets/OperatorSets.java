@@ -17,17 +17,17 @@
 package org.onnx4j.opsets;
 
 public class OperatorSets {
-	
+
 	private OperatorSet[] opsets;
-	
+
 	public static OperatorSets wrap(OperatorSet[] opsets) {
 		return new OperatorSets(opsets);
 	}
-	
+
 	private OperatorSets(OperatorSet[] opsets) {
 		this.opsets = opsets;
 	}
-	
+
 	/**
 	 * 查找此版本实现下的Operator
 	 * 
@@ -39,10 +39,10 @@ public class OperatorSets {
 			Operator op = opset.getOp(opType);
 			if (op == null)
 				continue;
-			
+
 			return op;
 		}
-		
+
 		return null;
 	}
 

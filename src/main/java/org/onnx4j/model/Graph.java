@@ -50,11 +50,6 @@ public class Graph extends NamedOnnxObject {
 	private GraphInput[] inputs;
 	private GraphOutput[] outputs;
 
-	/*
-	 * public Graph(GraphProto graphProto) { this(Config.getDefaultConfigs(),
-	 * graphProto); }
-	 */
-
 	public Graph(Model model, GraphProto graphProto) {
 		super(graphProto.getName(), graphProto.getDocString());
 		

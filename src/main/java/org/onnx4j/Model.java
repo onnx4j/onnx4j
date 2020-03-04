@@ -25,7 +25,7 @@ import org.onnx4j.Tensor.Options;
 import org.onnx4j.exceptions.ModelException;
 import org.onnx4j.exceptions.ModelException.ModelExceptionEnums;
 import org.onnx4j.model.Graph;
-import org.onnx4j.opsets.OperatorSetId;
+import org.onnx4j.opsets.operator.OperatorSetId;
 import org.onnx4j.prototypes.OnnxProto3;
 import org.onnx4j.prototypes.OnnxProto3.ModelProto;
 import org.onnx4j.prototypes.OnnxProto3.Version;
@@ -51,6 +51,8 @@ public class Model extends OnnxObject implements AutoCloseable {
 			assert onnxModel != null;
 			logger.info("Model loaded from \"{}\"", onnxModelPath);
 			return onnxModel;
+		} catch (Exception e) {
+			throw new ModelException(ModelExceptionEnums.MODEL_NOT_EXISTS, onnxModelPath);
 		}
 	}
 
@@ -68,8 +70,6 @@ public class Model extends OnnxObject implements AutoCloseable {
 			
 		};
 		this.tensorOptions = tensorOptions;
-
-		// this.managedTensors = new ManagedTensors();
 		this.irVersion = onnxModel.getIrVersion();
 		this.modelVersion = onnxModel.getModelVersion();
 		this.opsetIds = OperatorSetId.from(onnxModel.getOpsetImportList());

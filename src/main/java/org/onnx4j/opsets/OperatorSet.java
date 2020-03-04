@@ -18,6 +18,8 @@ package org.onnx4j.opsets;
 
 import java.util.Map;
 
+import org.onnx4j.opsets.operator.OperatorSetId;
+
 /**
  * Each model MUST explicitly name the operator sets that it relies on for its
  * functionality. Operator sets define the available operators, their version,
@@ -31,7 +33,7 @@ import java.util.Map;
  * @author HarryLee
  *
  */
-public abstract class OperatorSet extends OperatorSetId implements OperatorSetSpec {
+public abstract class OperatorSet extends OperatorSetId implements OpsetInitializer {
 
 	public static final String MAGIC = "ONNXOPSET";
 

@@ -16,32 +16,42 @@
  */
 package org.onnx4j.exceptions;
 
-public class ModelException extends ForwarderException {
+import org.onnx4j.exceptions.ErrorCode;
+import org.onnx4j.exceptions.ExceptionEnums;
+import org.onnx4j.exceptions.Onnx4jException;
+
+public class ModelException extends Onnx4jException {
 
 	private static final long serialVersionUID = -9110594428291367746L;
 	
-	private static final int ERR_CODE_BASE = 10000;
+	private static final String ERR_CODE_PREFIX = "ME";
+	
+	private static int ERR_CODE_BASE = 1000;
 
 	public enum ModelExceptionEnums implements ExceptionEnums {
 
-		IR_VER_UNSUPPORTED(ERR_CODE_BASE + 1, "Model's ir version(%s) is newer than supported(%s)");
+		/**
+		 * 警告：注意枚举成员的顺序，不能随意调整！
+		 */
+		IR_VER_UNSUPPORTED("Model's ir version(%s) is newer than supported(%s)"),
+		MODEL_NOT_EXISTS("Model file not exists");
 
-		public int code;
-		public String message;
+		public ErrorCode errorCode;
+		public String messageTemplate;
 
-		private ModelExceptionEnums(int code, String message) {
-			this.code = code;
-			this.message = message;
+		private ModelExceptionEnums(String messageTemplate) {
+			this.errorCode = new ErrorCode(ERR_CODE_PREFIX, ERR_CODE_BASE++);
+			this.messageTemplate = messageTemplate;
 		}
 
 		@Override
-		public int getCode() {
-			return code;
+		public String getErrorCode() {
+			return errorCode.toString();
 		}
 
 		@Override
-		public String getMessage() {
-			return message;
+		public String getMessageTemplate() {
+			return messageTemplate;
 		}
 
 	}
@@ -51,7 +61,7 @@ public class ModelException extends ForwarderException {
 	}
 	
 	public ModelException(ModelExceptionEnums exceptionEnum, Object... args) {
-		super(String.format(exceptionEnum.getMessage(), args));
+		super(exceptionEnum, args);
 	}
 
 }
